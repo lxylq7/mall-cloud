@@ -1,0 +1,44 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: mall-gateway
+  config:
+    import: optional:nacos:${spring.application.name}.yaml
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        namespace: public
+        group: DEFAULT_GROUP
+      config:
+        namespace: public
+        group: DEFAULT_GROUP
+        file-extension: yaml
+    gateway:
+      routes:
+        - id: mall-user-service #路由id
+          uri: lb://mall-user-service #从nacos找服务名
+          predicates:      #匹配规则
+            - Path=/user/**   #访问/user/xxx 就能转发
+          filters:
+            - StripPrefix=1  #去掉/user/
+        - id: mall-order-service #路由id
+          uri: lb://mall-order-service #从nacos找服务名
+          predicates: #匹配规则
+            - Path=/order/**   #访问/order/xxx 就能转发
+          filters:
+            - StripPrefix=1  #去掉/order/
+        - id: mall-product-service #路由id
+          uri: lb://mall-product-service #从nacos找服务名
+          predicates: #匹配规则
+            - Path=/product/**   #访问/product/xxx 就能转发
+          filters:
+            - StripPrefix=1  #去掉/product/
+        - id: mall-stock-service #路由id
+          uri: lb://mall-stock-service #从nacos找服务名
+          predicates: #匹配规则
+            - Path=/stock/**   #访问/stock/xxx 就能转发
+          filters:
+            - StripPrefix=1  #去掉/stock/

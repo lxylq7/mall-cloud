@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/mall-gateway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/target/classes/com/lxylq7/MallGatewayApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/target/mall-gateway-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/MallOrderServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/ProductClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/StockClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderCreateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderCreateResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/ProductDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/entity/OmsOrder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OmsOrderMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/MallOrderServiceApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/target/mall-order-service-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/MallProductServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/dto/ProductDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/classes/com/lxylq7/MallProductServiceApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/classes/com/lxylq7/controller/ProductController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/mall-product-service-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-product-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/MallStockServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/MallStockServiceApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/controller/StockController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/mall-stock-service-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/MallUserServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/target/classes/com/lxylq7/MallUserServiceApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/target/mall-user-service-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/src/main/java/com/lxylq7/MallCloudBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-gateway/src/main/java/com/lxylq7/MallGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/src/test/java/com/lxylq7/MallCloudBackendApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\maven\apache-maven-3.9.13" />
+        <option name="localRepository" value="D:\maven\apache-maven-3.9.13\repo" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="D:\maven\apache-maven-3.9.13\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="17" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="17" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3DNgQBIqtcPKcm2dk5NyAe9HtIT" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.mall-gateway [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.MallGatewayApplication.executor": "Run",
+    "Spring Boot.MallOrderServiceApplication.executor": "Run",
+    "Spring Boot.MallProductServiceApplication.executor": "Run",
+    "Spring Boot.MallStockServiceApplication.executor": "Run",
+    "Spring Boot.MallUserServiceApplication.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.14355469",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\lxylq-shopSystem\mall-cloud\mall-cloud" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="MallOrderServiceApplication" value="STOPPED" />
+              <entry key="MallProductServiceApplication" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.MallUserServiceApplication">
+    <configuration name="MallGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="mall-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lxylq7.MallGatewayApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lxylq7.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MallOrderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="mall-order-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lxylq7.MallOrderServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lxylq7.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MallProductServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="mall-product-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lxylq7.MallProductServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lxylq7.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MallStockServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="mall-stock-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lxylq7.MallStockServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lxylq7.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MallUserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="mall-user-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lxylq7.MallUserServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lxylq7.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="lua.app" factoryName="Lua Application">
+      <option name="program" value="lua.exe" />
+      <option name="file" value="" />
+      <option name="workingDir" value="$PROJECT_DIR$/mall-gateway/mall-gateway/src/main/java" />
+      <option name="debuggerType" value="1" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.MallOrderServiceApplication" />
+        <item itemvalue="Spring Boot.MallUserServiceApplication" />
+        <item itemvalue="Spring Boot.MallProductServiceApplication" />
+        <item itemvalue="Spring Boot.MallGatewayApplication" />
+        <item itemvalue="Spring Boot.MallStockServiceApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="" />
+      <created>1778127923244</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778127923244</updated>
+      <workItem from="1778127928057" duration="6470000" />
+      <workItem from="1778144007014" duration="7261000" />
+      <workItem from="1778237065679" duration="1529000" />
+      <workItem from="1778298155025" duration="13055000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
