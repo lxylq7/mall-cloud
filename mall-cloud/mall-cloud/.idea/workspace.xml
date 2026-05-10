@@ -5,19 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/config/RedisLuaConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDeductRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDuductResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/entity/WmsStock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/mapper/WmsStockMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/StockService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/impl/StockServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/resources/lua/stock_deduct.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-stock-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockDeductRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockDeductResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockReleaseRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockReleaseRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/StockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/StockClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/client/StockClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/client/StockClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/controller/OrderController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDuductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDeductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/mapper/WmsStockMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/mapper/WmsStockMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/StockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/StockService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/impl/StockServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/impl/StockServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/controller/StockController.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/controller/StockController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/dto/StockDuductResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/service/StockService.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/service/StockService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/service/impl/StockServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/service/impl/StockServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,9 +223,9 @@
       <list>
         <item itemvalue="Spring Boot.MallGatewayApplication" />
         <item itemvalue="Spring Boot.MallStockServiceApplication" />
+        <item itemvalue="Spring Boot.MallOrderServiceApplication" />
         <item itemvalue="Spring Boot.MallProductServiceApplication" />
         <item itemvalue="Spring Boot.MallUserServiceApplication" />
-        <item itemvalue="Spring Boot.MallOrderServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -244,7 +248,7 @@
       <workItem from="1778144007014" duration="7261000" />
       <workItem from="1778237065679" duration="1529000" />
       <workItem from="1778298155025" duration="18291000" />
-      <workItem from="1778390413996" duration="5691000" />
+      <workItem from="1778390413996" duration="8992000" />
     </task>
     <servers />
   </component>
