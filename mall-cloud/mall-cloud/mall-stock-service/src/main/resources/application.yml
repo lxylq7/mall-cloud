@@ -1,6 +1,11 @@
 server:
   port: 8104
 
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: stock-producer-group
+
 spring:
   application:
     name: mall-stock-service
@@ -16,6 +21,22 @@ spring:
         namespace: public
         group: DEFAULT_GROUP
         file-extension: yaml
+    function:
+      definition: stockIn0
+    stream:
+      rocketmq:
+        binder:
+          name-server: ${rocketmq.name-server}
+      bindings:
+        #发送消息 输出通道
+        stockOut0:
+          destination: stock-event-topic
+          content-type: application/json
+        #接收消息 输入通道
+        stockIn0-in-0:
+          destination: stock-event-topic
+          group: stock-db-consumer-group
+          content-type: application/json
   #redis配置
   data:
     redis:

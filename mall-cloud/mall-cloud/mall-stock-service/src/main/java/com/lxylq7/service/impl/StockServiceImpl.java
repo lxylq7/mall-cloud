@@ -2,17 +2,16 @@ package com.lxylq7.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.lxylq7.dto.StockDTO;
-import com.lxylq7.dto.StockDeductRequest;
-import com.lxylq7.dto.StockDeductResponse;
-import com.lxylq7.dto.StockReleaseRequest;
+import com.lxylq7.dto.*;
 import com.lxylq7.entity.WmsStock;
 import com.lxylq7.mapper.WmsStockMapper;
 import com.lxylq7.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,7 +30,7 @@ public class StockServiceImpl implements StockService {
     @Autowired
     private RedisScript<Long> redisScript;
     @Autowired
-    private ResourceLoader resourceLoader;
+    private StreamBridge streamBridge;
 
     @Override
     public StockDTO getStock(Long productId) {
@@ -92,24 +91,43 @@ public class StockServiceImpl implements StockService {
             resp.setMessage("库存不足");
         } else {
             //redis扣减成功后 更新数据库
-            int rows = wmsStockMapper.update(
+            /*int rows = wmsStockMapper.update(
                     null,
                     new LambdaUpdateWrapper<WmsStock>()
                             .eq(WmsStock::getProductId, req.getProductId())
                             .ge(WmsStock::getAvailable, req.getQuantity())
-                            .setSql("available = available - " + req.
-                                    getQuantity())
-                            .setSql("locked = locked + " + req.getQuantity())
-            );
+                            .setSql("available = available - " + req.getQuantity()
+                                    + ", `locked` = `locked` + " + req.getQuantity())
+            );*/
+            //redis扣减成功后 发送mq事件 异步更新db
+            StockChangeEvent event = new StockChangeEvent();
+            event.setBizNo(java.util.UUID.randomUUID().toString());
+            event.setType("DEDUCT");
+            event.setProductId(req.getProductId());
+            event.setQuantity(req.getQuantity());
+            event.setTs(System.currentTimeMillis());
+
+            boolean sent = streamBridge.send("stockOut0", event);
+            if (!sent) {
+                //发送失败 回滚redis
+                stringRedisTemplate.opsForValue().increment(
+                        key, req.getQuantity().longValue()
+                );
+                resp.setSuccess(false);
+                resp.setMessage("库存消息发送失败,已回滚缓存");
+                return resp;
+            }
             //db更新失败 回滚redis
-            if (rows == 0) {
+            /*if (rows == 0) {
                 stringRedisTemplate.opsForValue().increment(key, req.getQuantity().longValue());
                 resp.setSuccess(false);
                 resp.setMessage("数据库扣减失败,已回滚缓存");
             } else {
                 resp.setSuccess(true);
                 resp.setMessage("扣减成功");
-            }
+            }*/
+            resp.setSuccess(true);
+            resp.setMessage("扣减成功");
         }
         return resp;
     }
@@ -129,7 +147,7 @@ public class StockServiceImpl implements StockService {
             return resp;
         }
         //先改数据库 避免redis先加但db没加
-        int rows = wmsStockMapper.update(
+        /*int rows = wmsStockMapper.update(
                 null,
                 new LambdaUpdateWrapper<WmsStock>()
                         .eq(WmsStock::getProductId,req.getProductId())
@@ -142,10 +160,27 @@ public class StockServiceImpl implements StockService {
             resp.setSuccess(false);
             resp.setMessage("数据库回补失败");
             return resp;
-        }
-        //再回补redis
+        }*/
+        //回补redis
         String key = STOCK_KEY_PREFIX + req.getProductId();
         stringRedisTemplate.opsForValue().increment(key,req.getQuantity().longValue());
+        StockChangeEvent event = new StockChangeEvent();
+        event.setBizNo(java.util.UUID.randomUUID().toString());
+        event.setType("RELEASE");
+        event.setProductId(req.getProductId());
+        event.setQuantity(req.getQuantity());
+        event.setTs(System.currentTimeMillis());
+
+        boolean sent = streamBridge.send("stockOut0", event);
+        if (!sent) {
+            //发送失败 回滚redis
+            stringRedisTemplate.opsForValue().decrement(
+                    key,req.getQuantity().longValue()
+            );
+            resp.setSuccess(false);
+            resp.setMessage("回补消息发送失败,已回滚缓存");
+            return resp;
+        }
         resp.setSuccess(true);
         resp.setMessage("回补成功");
         return resp;

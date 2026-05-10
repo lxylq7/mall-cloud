@@ -1,1 +1,11 @@
+com\lxylq7\config\RedisLuaConfig.class
+com\lxylq7\dto\StockDeductRequest.class
+com\lxylq7\mapper\WmsStockMapper.class
+com\lxylq7\dto\StockDTO.class
+com\lxylq7\dto\StockDeductResponse.class
+com\lxylq7\dto\StockReleaseRequest.class
 com\lxylq7\MallStockServiceApplication.class
+com\lxylq7\controller\StockController.class
+com\lxylq7\service\StockService.class
+com\lxylq7\entity\WmsStock.class
+com\lxylq7\service\impl\StockServiceImpl.class

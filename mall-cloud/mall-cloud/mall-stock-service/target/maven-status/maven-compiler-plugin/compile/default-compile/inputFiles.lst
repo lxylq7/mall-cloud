@@ -1,1 +1,11 @@
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\config\RedisLuaConfig.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\controller\StockController.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\dto\StockDeductRequest.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\dto\StockDeductResponse.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\dto\StockDTO.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\dto\StockReleaseRequest.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\entity\WmsStock.java
 D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\MallStockServiceApplication.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\mapper\WmsStockMapper.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\service\impl\StockServiceImpl.java
+D:\lxylq-shopSystem\mall-cloud\mall-cloud\mall-stock-service\src\main\java\com\lxylq7\service\StockService.java
