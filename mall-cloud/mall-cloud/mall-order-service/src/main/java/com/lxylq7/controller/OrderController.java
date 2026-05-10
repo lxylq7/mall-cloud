@@ -58,6 +58,7 @@ public class OrderController {
 
         //插入到数据库
         String orderNo = "MOCK-" + System.currentTimeMillis();
+        //String orderNo = "MOCK-FIXED-001";  用来测试release接口的
         try {
             OmsOrder order = new OmsOrder();
             order.setOrderNo(orderNo);
@@ -70,9 +71,15 @@ public class OrderController {
         } catch (Exception e) {
             //订单失败 -> 回补库存
             StockReleaseRequest releaseReq = new StockReleaseRequest();
-            releaseReq.setProductId(req.getProductId());
-            releaseReq.setQuantity(req.getQuantity());
-            stockClient.release(releaseReq);
+            try {
+                releaseReq.setProductId(req.getProductId());
+                releaseReq.setQuantity(req.getQuantity());
+                stockClient.release(releaseReq);
+            } catch (Exception ex) {
+                resp.setSuccess(false);
+                resp.setMessage("回补异常:" + ex.getMessage());
+                return resp;
+            }
 
             resp.setSuccess(false);
             resp.setMessage("订单创建失败,库存已回补");

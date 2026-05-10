@@ -135,7 +135,7 @@ public class StockServiceImpl implements StockService {
                         .eq(WmsStock::getProductId,req.getProductId())
                         .ge(WmsStock::getAvailable,req.getQuantity())
                         .setSql("available = available + " + req.getQuantity()
-                        + "locked = locked - " + req.getQuantity())
+                        + ", `locked` = `locked` - " + req.getQuantity())
         );
         if (rows == 0) {
             //失败
