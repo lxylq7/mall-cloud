@@ -16,3 +16,16 @@ spring:
         namespace: public
         group: DEFAULT_GROUP
         file-extension: yaml
+  #redis配置
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      password: 123456
+  #mysql配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver

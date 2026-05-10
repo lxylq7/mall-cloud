@@ -5,74 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/mall-gateway/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/target/classes/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/target/classes/com/lxylq7/MallGatewayApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/target/mall-gateway-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/MallOrderServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/ProductClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/StockClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/UserClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderCreateResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/ProductDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/entity/OmsOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OmsOrderMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/target/classes/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/MallOrderServiceApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/target/mall-order-service-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/MallProductServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/controller/ProductController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/dto/ProductDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/classes/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/classes/com/lxylq7/MallProductServiceApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/classes/com/lxylq7/controller/ProductController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/mall-product-service-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-product-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/MallStockServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/MallStockServiceApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/controller/StockController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/mall-stock-service-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-stock-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/MallUserServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/target/classes/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/target/classes/com/lxylq7/MallUserServiceApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/target/mall-user-service-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-user-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/src/main/java/com/lxylq7/MallCloudBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-gateway/src/main/java/com/lxylq7/MallGatewayApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../mall-cloud-backend/mall-cloud-backend/src/test/java/com/lxylq7/MallCloudBackendApplicationTests.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/config/RedisLuaConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDeductRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDuductResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/entity/WmsStock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/mapper/WmsStockMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/StockService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/service/impl/StockServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-stock-service/src/main/resources/lua/stock_deduct.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/controller/StockController.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/target/classes/com/lxylq7/controller/StockController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,6 +77,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Spring Boot.MallGatewayApplication.executor": "Run",
@@ -155,6 +101,12 @@
     "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "mysql_aurora"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -176,8 +128,11 @@
         <entry key="SpringBootApplicationConfigurationType">
           <value>
             <map>
+              <entry key="MallGatewayApplication" value="STOPPED" />
               <entry key="MallOrderServiceApplication" value="STOPPED" />
               <entry key="MallProductServiceApplication" value="STOPPED" />
+              <entry key="MallStockServiceApplication" value="STOPPED" />
+              <entry key="MallUserServiceApplication" value="STOPPED" />
             </map>
           </value>
         </entry>
@@ -262,11 +217,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.MallOrderServiceApplication" />
-        <item itemvalue="Spring Boot.MallUserServiceApplication" />
-        <item itemvalue="Spring Boot.MallProductServiceApplication" />
         <item itemvalue="Spring Boot.MallGatewayApplication" />
         <item itemvalue="Spring Boot.MallStockServiceApplication" />
+        <item itemvalue="Spring Boot.MallProductServiceApplication" />
+        <item itemvalue="Spring Boot.MallUserServiceApplication" />
+        <item itemvalue="Spring Boot.MallOrderServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -288,7 +243,8 @@
       <workItem from="1778127928057" duration="6470000" />
       <workItem from="1778144007014" duration="7261000" />
       <workItem from="1778237065679" duration="1529000" />
-      <workItem from="1778298155025" duration="13055000" />
+      <workItem from="1778298155025" duration="18291000" />
+      <workItem from="1778390413996" duration="5691000" />
     </task>
     <servers />
   </component>

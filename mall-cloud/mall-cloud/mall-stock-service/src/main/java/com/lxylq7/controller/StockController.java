@@ -1,21 +1,36 @@
 package com.lxylq7.controller;
 
 import com.lxylq7.dto.StockDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import com.lxylq7.dto.StockDeductRequest;
+import com.lxylq7.dto.StockDuductResponse;
+import com.lxylq7.mapper.WmsStockMapper;
+import com.lxylq7.service.StockService;
+import com.lxylq7.service.impl.StockServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 
 @RestController
 public class StockController {
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private RedisScript<Long> redisScript;
+    @Autowired
+    private StockService stockService;
+
     @GetMapping("/stocks/{productId}")
     public StockDTO getStock(@PathVariable("productId") Long productId) {
-        StockDTO stockDTO = new StockDTO();
-        stockDTO.setProductId(productId);
-        stockDTO.setAvailable(88);
-        stockDTO.setLocked(0);
-        return stockDTO;
+        return stockService.getStock(productId);
+    }
+
+    @PostMapping("/stocks/deduct")
+    public StockDuductResponse deduct(@RequestBody StockDeductRequest req) {
+        return stockService.deduct(req);
+
     }
 }
