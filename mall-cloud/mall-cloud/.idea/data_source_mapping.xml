@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderEventConsumeLogMapper.java" value="7e8f378b-b9fd-4bba-adb6-84c3727619e0" />
     <file url="file://$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/mapper/StockEventConsumerLogMapper.java" value="7e8f378b-b9fd-4bba-adb6-84c3727619e0" />
   </component>
 </project>

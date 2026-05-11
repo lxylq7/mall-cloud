@@ -66,7 +66,7 @@ public class OrderController {
         order.setUserId(req.getUserId());
         order.setProductId(req.getProductId());
         order.setQuantity(req.getQuantity());
-        order.setStatus("CREATED");
+        order.setStatus("ACCEPTED");
         //order.setCreateAt(LocalDateTime.now());  不写也可以 表结构默认值会兜底
         try {
             omsOrderMapper.insert(order);
@@ -98,7 +98,7 @@ public class OrderController {
         event.setOrderNo(orderNo);
         event.setTs(System.currentTimeMillis());
 
-        boolean sent = streamBridge.send("OrderCreateOut0", event);
+        boolean sent = streamBridge.send("orderCreateOut0", event);
         if (!sent) {
             //mq发送失败
             omsOrderMapper.update(
@@ -138,7 +138,7 @@ public class OrderController {
             resp.setMessage("订单不存在");
             return resp;
         }
-        resp.setSuccess(false);
+        resp.setSuccess(true);
         resp.setOrderNo(orderNo);
         resp.setQuantity(order.getQuantity());
         resp.setUserId(order.getUserId());
