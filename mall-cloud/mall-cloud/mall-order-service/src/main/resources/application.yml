@@ -7,6 +7,20 @@ spring:
   config:
     import: optional:nacos:${spring.application.name}.yaml
   cloud:
+    function:
+      definition: orderCreateIn0
+    stream:
+        rocketmq:
+          binder:
+            name-server: 127.0.0.1:9876
+        bindings:
+          orderCreateOut0:
+            destination: order-create-topic
+            content-type: application/json
+          orderCreateIn0-in-0:
+            destination: order-create-topic
+            group: order-create-consumer-group
+            content-type: application/json
     nacos:
       server-addr: 127.0.0.1:8848
       discovery:

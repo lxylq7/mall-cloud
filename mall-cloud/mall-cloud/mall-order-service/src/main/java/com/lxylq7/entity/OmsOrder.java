@@ -16,11 +16,12 @@ public class OmsOrder {
     private Integer quantity;
     private String status;
     private LocalDateTime createAt;
+    private String failReason;
 
     public OmsOrder() {
     }
 
-    public OmsOrder(Long id, String orderNo, Long userId, Long productId, Integer quantity, String status, LocalDateTime createAt) {
+    public OmsOrder(Long id, String orderNo, Long userId, Long productId, Integer quantity, String status, LocalDateTime createAt, String failReason) {
         this.id = id;
         this.orderNo = orderNo;
         this.userId = userId;
@@ -28,6 +29,7 @@ public class OmsOrder {
         this.quantity = quantity;
         this.status = status;
         this.createAt = createAt;
+        this.failReason = failReason;
     }
 
     /**
@@ -142,7 +144,23 @@ public class OmsOrder {
         this.createAt = createAt;
     }
 
+    /**
+     * 获取
+     * @return failReason
+     */
+    public String getFailReason() {
+        return failReason;
+    }
+
+    /**
+     * 设置
+     * @param failReason
+     */
+    public void setFailReason(String failReason) {
+        this.failReason = failReason;
+    }
+
     public String toString() {
-        return "OmsOrder{id = " + id + ", orderNo = " + orderNo + ", userId = " + userId + ", productId = " + productId + ", quantity = " + quantity + ", status = " + status + ", createAt = " + createAt + "}";
+        return "OmsOrder{id = " + id + ", orderNo = " + orderNo + ", userId = " + userId + ", productId = " + productId + ", quantity = " + quantity + ", status = " + status + ", createAt = " + createAt + ", failReason = " + failReason + "}";
     }
 }
