@@ -6,4 +6,5 @@ import lombok.Data;
 public class StockReleaseRequest {
     private Long productId;
     private Integer quantity;
+
 }

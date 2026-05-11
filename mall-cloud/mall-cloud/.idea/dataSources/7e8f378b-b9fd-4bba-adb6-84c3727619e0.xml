@@ -17887,157 +17887,170 @@ created_at</ColNames>
       <Position>4</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <index id="3335" parent="719" name="PRIMARY">
+    <column id="3335" parent="719" name="consume_status">
+      <DefaultExpression>&apos;DONE&apos;</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StoredType>varchar(16)|0s</StoredType>
+    </column>
+    <column id="3336" parent="719" name="updated_at">
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <NotNull>1</NotNull>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+      <Position>6</Position>
+      <StoredType>datetime|0s</StoredType>
+    </column>
+    <index id="3337" parent="719" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="3336" parent="719" name="uk_biz_type">
+    <index id="3338" parent="719" name="uk_biz_type">
       <ColNames>biz_no
 event_type</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="3337" parent="719" name="PRIMARY">
+    <key id="3339" parent="719" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="3338" parent="719" name="uk_biz_type">
+    <key id="3340" parent="719" name="uk_biz_type">
       <UnderlyingIndexName>uk_biz_type</UnderlyingIndexName>
     </key>
-    <column id="3339" parent="720" name="id">
+    <column id="3341" parent="720" name="id">
       <AutoIncrement>3</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>bigint|0s</StoredType>
     </column>
-    <column id="3340" parent="720" name="name">
+    <column id="3342" parent="720" name="name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="3341" parent="720" name="price">
+    <column id="3343" parent="720" name="price">
       <DefaultExpression>0.00</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>decimal(10,2 digit)|0s</StoredType>
     </column>
-    <column id="3342" parent="720" name="stock">
+    <column id="3344" parent="720" name="stock">
       <DefaultExpression>0</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <index id="3343" parent="720" name="PRIMARY">
+    <index id="3345" parent="720" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="3344" parent="720" name="PRIMARY">
+    <key id="3346" parent="720" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="3345" parent="721" name="biz_no">
+    <column id="3347" parent="721" name="biz_no">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>varchar(64)|0s</StoredType>
     </column>
-    <column id="3346" parent="721" name="event_type">
+    <column id="3348" parent="721" name="event_type">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(16)|0s</StoredType>
     </column>
-    <column id="3347" parent="721" name="created_at">
+    <column id="3349" parent="721" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <index id="3348" parent="721" name="PRIMARY">
+    <index id="3350" parent="721" name="PRIMARY">
       <ColNames>biz_no</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="3349" parent="721" name="PRIMARY">
+    <key id="3351" parent="721" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="3350" parent="722" name="id">
+    <column id="3352" parent="722" name="id">
       <AutoIncrement>3</AutoIncrement>
       <Comment>userId</Comment>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>bigint|0s</StoredType>
     </column>
-    <column id="3351" parent="722" name="user_name">
+    <column id="3353" parent="722" name="user_name">
       <Comment>userName</Comment>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(64)|0s</StoredType>
     </column>
-    <column id="3352" parent="722" name="status">
+    <column id="3354" parent="722" name="status">
       <Comment>active/inactive</Comment>
       <DefaultExpression>&apos;active&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(16)|0s</StoredType>
     </column>
-    <index id="3353" parent="722" name="PRIMARY">
+    <index id="3355" parent="722" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="3354" parent="722" name="idx_status">
+    <index id="3356" parent="722" name="idx_status">
       <ColNames>status</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="3355" parent="722" name="PRIMARY">
+    <key id="3357" parent="722" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="3356" parent="723" name="id">
+    <column id="3358" parent="723" name="id">
       <AutoIncrement>3</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>bigint|0s</StoredType>
     </column>
-    <column id="3357" parent="723" name="product_id">
+    <column id="3359" parent="723" name="product_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>bigint|0s</StoredType>
     </column>
-    <column id="3358" parent="723" name="available">
+    <column id="3360" parent="723" name="available">
       <DefaultExpression>0</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="3359" parent="723" name="locked">
+    <column id="3361" parent="723" name="locked">
       <DefaultExpression>0</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <index id="3360" parent="723" name="PRIMARY">
+    <index id="3362" parent="723" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="3361" parent="723" name="uk_product_id">
+    <index id="3363" parent="723" name="uk_product_id">
       <ColNames>product_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="3362" parent="723" name="PRIMARY">
+    <key id="3364" parent="723" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="3363" parent="723" name="uk_product_id">
+    <key id="3365" parent="723" name="uk_product_id">
       <UnderlyingIndexName>uk_product_id</UnderlyingIndexName>
     </key>
   </database-model>

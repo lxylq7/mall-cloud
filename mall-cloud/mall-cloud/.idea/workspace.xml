@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderEventConsumeLogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderCreateConsumer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/controller/OrderCreateConsumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/controller/OrderCreateConsumer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockReleaseRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/StockReleaseRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderEventConsumeLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderEventConsumeLogMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/consumer/OrderCreateConsumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/consumer/OrderCreateConsumer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/mapper/OrderEventConsumeLogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/target/classes/com/lxylq7/mapper/OrderEventConsumeLogMapper.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,6 +125,7 @@
               <entry key="MallGatewayApplication" value="STOPPED" />
               <entry key="MallOrderServiceApplication" value="STOPPED" />
               <entry key="MallProductServiceApplication" value="STOPPED" />
+              <entry key="MallStockServiceApplication" value="STOPPED" />
               <entry key="MallUserServiceApplication" value="STOPPED" />
             </map>
           </value>
@@ -212,8 +212,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.MallGatewayApplication" />
-        <item itemvalue="Spring Boot.MallStockServiceApplication" />
         <item itemvalue="Spring Boot.MallOrderServiceApplication" />
+        <item itemvalue="Spring Boot.MallStockServiceApplication" />
         <item itemvalue="Spring Boot.MallProductServiceApplication" />
         <item itemvalue="Spring Boot.MallUserServiceApplication" />
       </list>
@@ -241,7 +241,7 @@
       <workItem from="1778390413996" duration="28135000" />
       <workItem from="1778424194797" duration="929000" />
       <workItem from="1778479827548" duration="6850000" />
-      <workItem from="1778486867673" duration="2588000" />
+      <workItem from="1778486867673" duration="6564000" />
     </task>
     <servers />
   </component>

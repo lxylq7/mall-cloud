@@ -27,10 +27,14 @@ public class OrderCreateConsumer {
             event.getBizNo() == null || event.getBizNo().isBlank()) {
                 return;
             }
+            String eventType = "ORDER_CREATE";
             //消息幂等
-            int inserted = orderEventConsumeLogMapper.insertIgnore(event.getBizNo(), "ORDER_CREATE");
+            int inserted = orderEventConsumeLogMapper.insertIgnore(event.getBizNo(), eventType);
             if (inserted == 0) {
-                return;
+                String status = orderEventConsumeLogMapper.selectStatus(event.getBizNo(), eventType);
+                if ("DONE".equalsIgnoreCase(status)) {
+                    return;
+                }
             }
             /*OmsOrder order = omsOrderMapper.selectOne(new LambdaQueryWrapper<OmsOrder>()
                     .eq(OmsOrder::getOrderNo, event.getOrderNo())
@@ -54,17 +58,20 @@ public class OrderCreateConsumer {
             /*if ("CONFIRMED".equalsIgnoreCase(order.getStatus()) || "FAILED".equalsIgnoreCase(order.getStatus())) {
                 return;
             }*/
+            boolean deducted = false;
             try {
                 //用户校验
                 UserDTO user = userClient.getById(event.getUserId());
                 if (user == null || !"ACTIVE".equalsIgnoreCase(user.getStatus())) {
                     failOrder(omsOrderMapper,event.getOrderNo(),"用户不存在或不可用");
+                    orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                     return;
                 }
                 //商品校验
                 ProductDTO product = productClient.getById(event.getProductId());
                 if (product == null) {
                     failOrder(omsOrderMapper,event.getOrderNo(),"商品不存在");
+                    orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                     return;
                 }
             /*try {  测试用
@@ -83,8 +90,10 @@ public class OrderCreateConsumer {
                             ? "库存服务异常"
                             : deduct.getMessage();
                     failOrder(omsOrderMapper, event.getOrderNo(), reason);
+                    orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                     return;
                 }
+                deducted = true;
                 //成功 订单确认
                 omsOrderMapper.update(
                         new LambdaUpdateWrapper<OmsOrder>()
@@ -93,8 +102,20 @@ public class OrderCreateConsumer {
                                 .set(OmsOrder::getStatus,"CONFIRMED")
                                 .set(OmsOrder::getFailReason,null)
                 );
+                orderEventConsumeLogMapper.markDone(event.getBizNo(),eventType);
             } catch (Exception e) {
                 failOrder(omsOrderMapper, event.getOrderNo(), "消费异常:" + e.getMessage());
+                if (deducted){
+                    try {
+                        //库存回滚
+                        StockReleaseRequest releaseRq = new StockReleaseRequest();
+                        releaseRq.setProductId(event.getProductId());
+                        releaseRq.setQuantity(event.getQuantity());
+                        stockClient.release(releaseRq);
+                    } catch (Exception ex) {
+                    }
+                }
+                orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
             }
         };
     }
