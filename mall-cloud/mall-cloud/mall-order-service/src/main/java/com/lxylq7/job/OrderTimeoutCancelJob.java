@@ -2,6 +2,8 @@ package com.lxylq7.job;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.lxylq7.client.StockClient;
+import com.lxylq7.dto.StockReleaseRequest;
 import com.lxylq7.entity.OmsOrder;
 import com.lxylq7.mapper.JobLockMapper;
 import com.lxylq7.mapper.OmsOrderMapper;
@@ -20,6 +22,8 @@ public class OrderTimeoutCancelJob {
     private  OmsOrderMapper omsOrderMapper; //操作订单表
     @Autowired
     private JobLockMapper jobLockMapper;  //分布式锁
+    @Autowired
+    private StockClient stockClient;
 
     @Value("${order.timeout-cancel.enabled:true}")
     private boolean enabled;
@@ -61,21 +65,30 @@ public class OrderTimeoutCancelJob {
 
             List<OmsOrder> candidates = omsOrderMapper.selectList(
                     new LambdaQueryWrapper<OmsOrder>()
-                            .eq(OmsOrder::getStatus, "ACCEPTED")
+                            .eq(OmsOrder::getStatus, "WAIT_PAY")
                             .isNotNull(OmsOrder::getCreateAt)
                             .lt(OmsOrder::getCreateAt, cutoff)
                             .last("limit " + limit)
             );
 
             for (OmsOrder o : candidates) {
-                omsOrderMapper.update(
+                int rows = omsOrderMapper.update(
                         null,
                         new LambdaUpdateWrapper<OmsOrder>()
                                 .eq(OmsOrder::getOrderNo, o.getOrderNo())
-                                .eq(OmsOrder::getStatus, "ACCEPTED")
+                                .eq(OmsOrder::getStatus, "WAIT_PAY")
                                 .set(OmsOrder::getStatus, "TIMEOUT_CANCELLED")
                                 .set(OmsOrder::getFailReason, "超时取消")
                 );
+                if (rows > 0 && o.getStockDeducted() != null && o.getStockDeducted() == 1) {
+                    try {
+                        StockReleaseRequest req = new StockReleaseRequest();
+                        req.setProductId(o.getProductId());
+                        req.setQuantity(o.getQuantity());
+                        stockClient.release(req);
+                    } catch (Exception ignored) {
+                    }
+                }
             }
         } finally {
             jobLockMapper.release(lockName, LocalDateTime.now());

@@ -121,7 +121,7 @@ public class OrderCreateConsumer {
                         new LambdaUpdateWrapper<OmsOrder>()
                                 .eq(OmsOrder::getOrderNo, event.getOrderNo())
                                 .eq(OmsOrder::getStatus, "PROCESSING")
-                                .set(OmsOrder::getStatus,"CONFIRMED")
+                                .set(OmsOrder::getStatus,"WAIT_PAY")
                                 .set(OmsOrder::getFailReason,null)
                 );
                 orderEventConsumeLogMapper.markDone(event.getBizNo(),eventType);

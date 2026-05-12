@@ -155,7 +155,9 @@ public class OrderController {
             resp.setMessage("已取消");
         } else if ("TIMEOUT_CANCELLED".equals(order.getStatus())) {
             resp.setMessage("超时取消");
-        }else if ("FAILED".equals(order.getStatus())) {
+        } else if ("WAIT_PAY".equals(order.getStatus())) {
+            resp.setMessage("待支付");
+        } else if ("FAILED".equals(order.getStatus())) {
             resp.setMessage(order.getFailReason() == null ? "下单失败" : order.getFailReason());
         } else {
             resp.setMessage(order.getStatus());
@@ -177,12 +179,27 @@ public class OrderController {
                 null,
                 new LambdaUpdateWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
-                        .eq(OmsOrder::getStatus, "ACCEPTED")
+                        .eq(OmsOrder::getStatus, "WAIT_PAY")
                         .set(OmsOrder::getStatus, "CANCELLED")
                         .set(OmsOrder::getFailReason, "用户取消")
         );
 
         if (rows > 0) {
+            OmsOrder order = omsOrderMapper.selectOne(
+                    new LambdaQueryWrapper<OmsOrder>()
+                            .eq(OmsOrder::getOrderNo, orderNo)
+                            .last("limit 1")
+            );
+            if (order != null && order.getStockDeducted() != null && order.getStockDeducted() == 1) {
+                try {
+                    StockReleaseRequest req = new StockReleaseRequest();
+                    req.setProductId(order.getProductId());
+                    req.setQuantity(order.getQuantity());
+                    stockClient.release(req);
+                } catch (Exception ignored) {
+                }
+            }
+
             resp.setSuccess(true);
             resp.setOrderNo(orderNo);
             resp.setMessage("已取消");
@@ -230,7 +247,7 @@ public class OrderController {
 
         List<OmsOrder> candidates = omsOrderMapper.selectList(
                 new LambdaQueryWrapper<OmsOrder>()
-                        .eq(OmsOrder::getStatus, "ACCEPTED")
+                        .eq(OmsOrder::getStatus, "WAIT_PAY")
                         .isNotNull(OmsOrder::getCreateAt)
                         .lt(OmsOrder::getCreateAt, cutoff)
                         .last("limit " + limit)
@@ -242,10 +259,19 @@ public class OrderController {
                     null,
                     new LambdaUpdateWrapper<OmsOrder>()
                             .eq(OmsOrder::getOrderNo, o.getOrderNo())
-                            .eq(OmsOrder::getStatus, "ACCEPTED")
+                            .eq(OmsOrder::getStatus, "WAIT_PAY")
                             .set(OmsOrder::getStatus, "TIMEOUT_CANCELLED")
                             .set(OmsOrder::getFailReason, "超时取消")
             );
+            if (rows > 0 && o.getStockDeducted() != null && o.getStockDeducted() == 1) {
+                try {
+                    StockReleaseRequest req = new StockReleaseRequest();
+                    req.setProductId(o.getProductId());
+                    req.setQuantity(o.getQuantity());
+                    stockClient.release(req);
+                } catch (Exception ignored) {
+                }
+            }
             updated += rows;
         }
 
@@ -256,5 +282,48 @@ public class OrderController {
                 "scanned", candidates.size(),
                 "updated", updated
         );
+    }
+
+    @PostMapping("/orders/{orderNo}/pay")
+    public OrderCreateResponse pay(@PathVariable("orderNo") String orderNo) {
+        OrderCreateResponse resp = new OrderCreateResponse();
+
+        if (orderNo == null || orderNo.isBlank()) {
+            resp.setSuccess(false);
+            resp.setMessage("orderNo不能为空");
+            return resp;
+        }
+
+        int rows = omsOrderMapper.update(
+                null,
+                new LambdaUpdateWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .eq(OmsOrder::getStatus, "WAIT_PAY")
+                        .set(OmsOrder::getStatus, "CONFIRMED")
+                        .set(OmsOrder::getFailReason, null)
+        );
+
+        if (rows > 0) {
+            resp.setSuccess(true);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("支付成功");
+            return resp;
+        }
+
+        OmsOrder order = omsOrderMapper.selectOne(
+                new LambdaQueryWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .last("limit 1")
+        );
+        if (order == null) {
+            resp.setSuccess(false);
+            resp.setMessage("订单不存在");
+            return resp;
+        }
+
+        resp.setSuccess(false);
+        resp.setOrderNo(orderNo);
+        resp.setMessage("当前状态不可支付:" + order.getStatus());
+        return resp;
     }
 }
