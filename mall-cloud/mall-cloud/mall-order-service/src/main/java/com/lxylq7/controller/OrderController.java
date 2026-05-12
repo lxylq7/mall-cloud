@@ -11,6 +11,10 @@ import com.lxylq7.mapper.OmsOrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class OrderController {
 
@@ -147,11 +151,110 @@ public class OrderController {
             resp.setMessage("处理中");
         } else if ("CONFIRMED".equals(order.getStatus())) {
             resp.setMessage("下单成功");
-        } else if ("FAILED".equals(order.getStatus())) {
+        } else if ("CANCELLED".equals(order.getStatus())) {
+            resp.setMessage("已取消");
+        } else if ("TIMEOUT_CANCELLED".equals(order.getStatus())) {
+            resp.setMessage("超时取消");
+        }else if ("FAILED".equals(order.getStatus())) {
             resp.setMessage(order.getFailReason() == null ? "下单失败" : order.getFailReason());
         } else {
             resp.setMessage(order.getStatus());
         }
         return resp;
+    }
+
+    @PostMapping("/orders/{orderNo}/cancel")
+    public OrderCreateResponse cancel(@PathVariable("orderNo") String orderNo) {
+        OrderCreateResponse resp = new OrderCreateResponse();
+
+        if (orderNo == null || orderNo.isBlank()) {
+            resp.setSuccess(false);
+            resp.setMessage("orderNo不能为空");
+            return resp;
+        }
+
+        int rows = omsOrderMapper.update(
+                null,
+                new LambdaUpdateWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .eq(OmsOrder::getStatus, "ACCEPTED")
+                        .set(OmsOrder::getStatus, "CANCELLED")
+                        .set(OmsOrder::getFailReason, "用户取消")
+        );
+
+        if (rows > 0) {
+            resp.setSuccess(true);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("已取消");
+            return resp;
+        }
+
+        OmsOrder order = omsOrderMapper.selectOne(
+                new LambdaQueryWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .last("limit 1")
+        );
+        if (order == null) {
+            resp.setSuccess(false);
+            resp.setMessage("订单不存在");
+            return resp;
+        }
+
+        resp.setSuccess(false);
+        resp.setOrderNo(orderNo);
+
+        if ("CONFIRMED".equalsIgnoreCase(order.getStatus())) {
+            resp.setMessage("订单已成功，不可取消");
+        } else if ("FAILED".equalsIgnoreCase(order.getStatus())) {
+            resp.setMessage("订单已失败，无需取消");
+        } else if ("CANCELLED".equalsIgnoreCase(order.getStatus()) || "TIMEOUT_CANCELLED".equalsIgnoreCase(order.getStatus())) {
+            resp.setMessage("订单已取消");
+        } else {
+            resp.setMessage("订单处理中，不可取消");
+        }
+        return resp;
+    }
+
+    @PostMapping("/orders/timeout-cancel")
+    public Map<String, Object> timeoutCancel(
+            @RequestParam(value = "minutes", defaultValue = "15") int minutes,
+            @RequestParam(value = "limit", defaultValue = "200") int limit
+    ) {
+        //参数合法性校验
+        if (minutes <= 0) minutes = 15;
+        if (minutes > 24 * 60) minutes = 24 * 60;
+        if (limit <= 0) limit = 200;
+        if (limit > 2000) limit = 2000;
+
+        LocalDateTime cutoff = LocalDateTime.now().minusMinutes(minutes);
+
+        List<OmsOrder> candidates = omsOrderMapper.selectList(
+                new LambdaQueryWrapper<OmsOrder>()
+                        .eq(OmsOrder::getStatus, "ACCEPTED")
+                        .isNotNull(OmsOrder::getCreateAt)
+                        .lt(OmsOrder::getCreateAt, cutoff)
+                        .last("limit " + limit)
+        );
+
+        int updated = 0;
+        for (OmsOrder o : candidates) {
+            int rows = omsOrderMapper.update(
+                    null,
+                    new LambdaUpdateWrapper<OmsOrder>()
+                            .eq(OmsOrder::getOrderNo, o.getOrderNo())
+                            .eq(OmsOrder::getStatus, "ACCEPTED")
+                            .set(OmsOrder::getStatus, "TIMEOUT_CANCELLED")
+                            .set(OmsOrder::getFailReason, "超时取消")
+            );
+            updated += rows;
+        }
+
+        return Map.of(
+                "success", true,
+                "minutes", minutes,
+                "cutoff", cutoff.toString(),
+                "scanned", candidates.size(),
+                "updated", updated
+        );
     }
 }

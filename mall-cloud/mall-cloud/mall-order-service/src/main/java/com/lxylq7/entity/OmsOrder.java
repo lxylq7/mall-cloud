@@ -17,11 +17,13 @@ public class OmsOrder {
     private String status;
     private LocalDateTime createAt;
     private String failReason;
+    private Integer stockDeducted;
+
 
     public OmsOrder() {
     }
 
-    public OmsOrder(Long id, String orderNo, Long userId, Long productId, Integer quantity, String status, LocalDateTime createAt, String failReason) {
+    public OmsOrder(Long id, String orderNo, Long userId, Long productId, Integer quantity, String status, LocalDateTime createAt, String failReason, Integer stockDeducted) {
         this.id = id;
         this.orderNo = orderNo;
         this.userId = userId;
@@ -30,6 +32,7 @@ public class OmsOrder {
         this.status = status;
         this.createAt = createAt;
         this.failReason = failReason;
+        this.stockDeducted = stockDeducted;
     }
 
     /**
@@ -160,7 +163,23 @@ public class OmsOrder {
         this.failReason = failReason;
     }
 
+    /**
+     * 获取
+     * @return stockDeducted
+     */
+    public Integer getStockDeducted() {
+        return stockDeducted;
+    }
+
+    /**
+     * 设置
+     * @param stockDeducted
+     */
+    public void setStockDeducted(Integer stockDeducted) {
+        this.stockDeducted = stockDeducted;
+    }
+
     public String toString() {
-        return "OmsOrder{id = " + id + ", orderNo = " + orderNo + ", userId = " + userId + ", productId = " + productId + ", quantity = " + quantity + ", status = " + status + ", createAt = " + createAt + ", failReason = " + failReason + "}";
+        return "OmsOrder{id = " + id + ", orderNo = " + orderNo + ", userId = " + userId + ", productId = " + productId + ", quantity = " + quantity + ", status = " + status + ", createAt = " + createAt + ", failReason = " + failReason + ", stockDeducted = " + stockDeducted + "}";
     }
 }

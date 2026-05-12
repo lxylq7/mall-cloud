@@ -1,5 +1,6 @@
 package com.lxylq7.consumer;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.lxylq7.client.ProductClient;
 import com.lxylq7.client.StockClient;
@@ -52,6 +53,19 @@ public class OrderCreateConsumer {
             );
             //没抢到 说明已经被其他消费者消费
             if (update == 0) {
+                //用户很快点击取消后 订单表里会是CANCELLED状态 但是订单事件表里会是PROCESSING状态 所以需要判断一下
+                OmsOrder existing = omsOrderMapper.selectOne(
+                        new LambdaQueryWrapper<OmsOrder>()
+                                .eq(OmsOrder::getOrderNo, event.getOrderNo())
+                                .last("limit 1")
+                );
+                if (existing == null
+                        || "CONFIRMED".equalsIgnoreCase(existing.getStatus())
+                        || "FAILED".equalsIgnoreCase(existing.getStatus())
+                        || "CANCELLED".equalsIgnoreCase(existing.getStatus())
+                        || "TIMEOUT_CANCELLED".equalsIgnoreCase(existing.getStatus())) {
+                    orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
+                }
                 return;
             }
             //幂等 就不处理
@@ -94,6 +108,14 @@ public class OrderCreateConsumer {
                     return;
                 }
                 deducted = true;
+                //给订单表更新库存扣减数量
+                omsOrderMapper.update(
+                        null,
+                        new LambdaUpdateWrapper<OmsOrder>()
+                                .eq(OmsOrder::getOrderNo, event.getOrderNo())
+                                .eq(OmsOrder::getStatus, "PROCESSING")
+                                .set(OmsOrder::getStockDeducted,1)
+                );
                 //成功 订单确认
                 omsOrderMapper.update(
                         new LambdaUpdateWrapper<OmsOrder>()

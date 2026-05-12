@@ -44,3 +44,22 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto #主键id交给数据库自增
+order:
+  #未支付
+  timeout-cancel:
+    enabled: true
+    fixed-delay: 60000 #60s执行一次
+    minutes: 15
+    limit: 200
+    lock:
+      name: order-timeout-cancel
+      ttl: 120000 #120s过期
+  #处理超时
+  processing-timeout:
+    enabled: true
+    fixed-delay: 60000 #60s执行一次
+    minutes: 15
+    limit: 200
+    lock:
+      name: order-processing-timeout
+      ttl: 120000 #120s过期
