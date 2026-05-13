@@ -5,28 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/job/OrderPayTimeoutJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-gateway/target/mall-gateway-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/mall-gateway/target/mall-gateway-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/ProductClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/ProductClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/StockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/StockClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/client/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderPayConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderPayConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderPayEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderPayEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/job/OrderTimeoutCancelJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/job/OrderTimeoutCancelJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderPayLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderPayLogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-product-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-product-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-product-service/src/main/java/com/lxylq7/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-stock-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-user-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-user-service/target/mall-user-service-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/mall-user-service/target/mall-user-service-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-common/src/main/java/com/lxylq7/common/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-common/target/mall-common-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/target/mall-common-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -260,7 +243,7 @@
       <workItem from="1778479827548" duration="6850000" />
       <workItem from="1778486867673" duration="7659000" />
       <workItem from="1778585408660" duration="9262000" />
-      <workItem from="1778638454943" duration="10555000" />
+      <workItem from="1778638454943" duration="11297000" />
     </task>
     <servers />
   </component>
