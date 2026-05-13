@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderPayConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderPayEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/mapper/OrderPayLogMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/consumer/OrderCreateConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/job/OrderTimeoutCancelJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/job/OrderTimeoutCancelJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,7 +243,8 @@
       <workItem from="1778424194797" duration="929000" />
       <workItem from="1778479827548" duration="6850000" />
       <workItem from="1778486867673" duration="7659000" />
-      <workItem from="1778585408660" duration="7715000" />
+      <workItem from="1778585408660" duration="9262000" />
+      <workItem from="1778638454943" duration="616000" />
     </task>
     <servers />
   </component>

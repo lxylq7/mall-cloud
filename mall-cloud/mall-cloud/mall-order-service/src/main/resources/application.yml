@@ -8,7 +8,7 @@ spring:
     import: optional:nacos:${spring.application.name}.yaml
   cloud:
     function:
-      definition: orderCreateIn0
+      definition: orderCreateIn0;orderPayIn0
     stream:
         rocketmq:
           binder:
@@ -20,6 +20,13 @@ spring:
           orderCreateIn0-in-0:
             destination: order-create-topic
             group: order-create-consumer-group
+            content-type: application/json
+          orderPayOut0:
+            destination: order-pay-topic
+            content-type: application/json
+          orderPayIn0-in-0:
+            destination: order-pay-topic
+            group: order-pay-consumer-group
             content-type: application/json
     nacos:
       server-addr: 127.0.0.1:8848

@@ -8,6 +8,7 @@ import com.lxylq7.client.UserClient;
 import com.lxylq7.dto.*;
 import com.lxylq7.entity.OmsOrder;
 import com.lxylq7.mapper.OmsOrderMapper;
+import com.lxylq7.mapper.OrderPayLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,8 @@ public class OrderController {
     private UserClient userClient;
     @Autowired
     private OmsOrderMapper omsOrderMapper;
+    @Autowired
+    private OrderPayLogMapper orderPayLogMapper;
     @Autowired
     private org.springframework.cloud.stream.function.StreamBridge streamBridge;
 
@@ -285,7 +288,8 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{orderNo}/pay")
-    public OrderCreateResponse pay(@PathVariable("orderNo") String orderNo) {
+    public OrderCreateResponse pay(@PathVariable("orderNo") String orderNo,
+                                   @RequestParam(value = "payNo",required = false) String payNo) {
         OrderCreateResponse resp = new OrderCreateResponse();
 
         if (orderNo == null || orderNo.isBlank()) {
@@ -294,7 +298,63 @@ public class OrderController {
             return resp;
         }
 
-        int rows = omsOrderMapper.update(
+        /*int rows = omsOrderMapper.update(
+                null,
+                new LambdaUpdateWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .eq(OmsOrder::getStatus, "WAIT_PAY")
+                        .set(OmsOrder::getStatus, "CONFIRMED")
+                        .set(OmsOrder::getFailReason, null)
+        );
+
+        if (rows > 0) {
+            resp.setSuccess(true);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("支付成功");
+            return resp;
+        }*/
+
+        OmsOrder order = omsOrderMapper.selectOne(
+                new LambdaQueryWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .last("limit 1")
+        );
+
+        if (order == null) {
+            resp.setSuccess(false);
+            resp.setMessage("订单不存在");
+            return resp;
+        }
+
+        if ("CONFIRMED".equalsIgnoreCase(order.getStatus())) {
+            resp.setSuccess(true);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("已支付");
+            return resp;
+        }
+
+        if (!"WAIT_PAY".equalsIgnoreCase(order.getStatus())) {
+            resp.setSuccess(false);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("当前状态不可支付:" + order.getStatus());
+            return resp;
+        }
+
+        if (payNo == null || payNo.isBlank()) {
+            payNo = "PAY-" + java.util.UUID.randomUUID();
+        }
+
+        orderPayLogMapper.insertIgnore(payNo, orderNo);
+
+        String mappedOrderNo = orderPayLogMapper.selectOrderNoByPayNo(payNo);
+        if (mappedOrderNo != null && !mappedOrderNo.equals(orderNo)) {
+            resp.setSuccess(false);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("payNo已被其他订单使用");
+            return resp;
+        }
+
+        /*int rows = omsOrderMapper.update(
                 null,
                 new LambdaUpdateWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
@@ -310,20 +370,40 @@ public class OrderController {
             return resp;
         }
 
-        OmsOrder order = omsOrderMapper.selectOne(
+        //rows==0 并发下 可能是被别的请求支付成功 按幂等处理
+        OmsOrder latest = omsOrderMapper.selectOne(
                 new LambdaQueryWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
                         .last("limit 1")
         );
-        if (order == null) {
-            resp.setSuccess(false);
-            resp.setMessage("订单不存在");
+        if (latest != null && "CONFIRMED".equalsIgnoreCase(latest.getStatus())) {
+            resp.setSuccess(true);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("已支付");
             return resp;
         }
 
         resp.setSuccess(false);
         resp.setOrderNo(orderNo);
-        resp.setMessage("当前状态不可支付:" + order.getStatus());
+        resp.setMessage("支付失败");
+        return resp;*/
+
+        OrderPayEvent payEvent = new OrderPayEvent();
+        payEvent.setPayNo(payNo);
+        payEvent.setOrderNo(orderNo);
+        payEvent.setTs(System.currentTimeMillis());
+
+        boolean sent = streamBridge.send("orderPayOut0", payEvent);
+        if (!sent) {
+            resp.setSuccess(false);
+            resp.setOrderNo(orderNo);
+            resp.setMessage("支付受理失败:MQ发送失败");
+            return resp;
+        }
+
+        resp.setSuccess(true);
+        resp.setOrderNo(orderNo);
+        resp.setMessage("支付已受理");
         return resp;
     }
 }

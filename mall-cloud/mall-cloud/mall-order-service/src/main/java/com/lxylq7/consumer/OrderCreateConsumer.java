@@ -63,7 +63,8 @@ public class OrderCreateConsumer {
                         || "CONFIRMED".equalsIgnoreCase(existing.getStatus())
                         || "FAILED".equalsIgnoreCase(existing.getStatus())
                         || "CANCELLED".equalsIgnoreCase(existing.getStatus())
-                        || "TIMEOUT_CANCELLED".equalsIgnoreCase(existing.getStatus())) {
+                        || "TIMEOUT_CANCELLED".equalsIgnoreCase(existing.getStatus())
+                        || "WAIT_PAY".equalsIgnoreCase(existing.getStatus())) {
                     orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                 }
                 return;
