@@ -7,6 +7,7 @@ import com.lxylq7.client.StockClient;
 import com.lxylq7.client.UserClient;
 import com.lxylq7.common.Result;
 import com.lxylq7.dto.*;
+import jakarta.validation.Valid;
 import com.lxylq7.entity.OmsOrder;
 import com.lxylq7.mapper.OmsOrderMapper;
 import com.lxylq7.mapper.OrderPayLogMapper;
@@ -34,7 +35,7 @@ public class OrderController {
     private org.springframework.cloud.stream.function.StreamBridge streamBridge;
 
     @PostMapping("/orders")
-    public Result<OrderCreateResponse> create(@RequestBody OrderCreateRequest req) {
+    public Result<OrderCreateResponse> create(@Valid @RequestBody OrderCreateRequest req) {
         if (req == null || req.getUserId() == null || req.getProductId() == null || req.getQuantity() == null) {
             return Result.fail("userId/productId/quantity不能为空");
         }

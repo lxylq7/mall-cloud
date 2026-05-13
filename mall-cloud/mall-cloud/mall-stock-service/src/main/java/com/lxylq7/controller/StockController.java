@@ -6,12 +6,16 @@ import com.lxylq7.dto.StockDeductRequest;
 import com.lxylq7.dto.StockDeductResponse;
 import com.lxylq7.dto.StockReleaseRequest;
 import com.lxylq7.service.StockService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Validated
 public class StockController {
 
     @Autowired
@@ -22,7 +26,7 @@ public class StockController {
     private StockService stockService;
 
     @GetMapping("/stocks/{productId}")
-    public Result<StockDTO> getStock(@PathVariable("productId") Long productId) {
+    public Result<StockDTO> getStock(@PathVariable("productId") @Min(value = 1, message = "productId最小为1") Long productId) {
         StockDTO dto = stockService.getStock(productId);
         if (dto == null) {
             return Result.fail("库存不存在");
@@ -31,7 +35,7 @@ public class StockController {
     }
 
     @PostMapping("/stocks/deduct")
-    public Result<StockDeductResponse> deduct(@RequestBody StockDeductRequest req) {
+    public Result<StockDeductResponse> deduct(@Valid @RequestBody StockDeductRequest req) {
         StockDeductResponse resp = stockService.deduct(req);
         if (resp == null) {
             return Result.fail("库存服务异常");
@@ -43,7 +47,7 @@ public class StockController {
     }
 
     @PostMapping("/stocks/release")
-    public Result<StockDeductResponse> release(@RequestBody StockReleaseRequest req) {
+    public Result<StockDeductResponse> release(@Valid @RequestBody StockReleaseRequest req) {
         StockDeductResponse resp = stockService.release(req);
         if (resp == null) {
             return Result.fail("库存服务异常");

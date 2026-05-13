@@ -5,11 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/mall-common/src/main/java/com/lxylq7/common/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/auth/AuthInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/auth/CurrentUserContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/auth/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/auth/WebMvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/dto/UserLoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/dto/UserLoginResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/dto/UserRegisterRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/service/AuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mall-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-common/target/mall-common-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/target/mall-common-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/mall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/dto/OrderCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/controller/StockController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDeductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockDeductRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockReleaseRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-stock-service/src/main/java/com/lxylq7/dto/StockReleaseRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-user-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-user-service/src/main/java/com/lxylq7/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +256,7 @@
       <workItem from="1778479827548" duration="6850000" />
       <workItem from="1778486867673" duration="7659000" />
       <workItem from="1778585408660" duration="9262000" />
-      <workItem from="1778638454943" duration="11297000" />
+      <workItem from="1778638454943" duration="17371000" />
     </task>
     <servers />
   </component>
