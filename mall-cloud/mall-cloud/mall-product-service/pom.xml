@@ -19,6 +19,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.lxylq7</groupId>
+            <artifactId>mall-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

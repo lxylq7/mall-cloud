@@ -65,7 +65,7 @@ public class OrderTimeoutCancelJob {
 
             List<OmsOrder> candidates = omsOrderMapper.selectList(
                     new LambdaQueryWrapper<OmsOrder>()
-                            .eq(OmsOrder::getStatus, "WAIT_PAY")
+                            .in(OmsOrder::getStatus, "WAIT_PAY","PAY_FAILED","PAYING")
                             .isNotNull(OmsOrder::getCreateAt)
                             .lt(OmsOrder::getCreateAt, cutoff)
                             .last("limit " + limit)
@@ -76,7 +76,7 @@ public class OrderTimeoutCancelJob {
                         null,
                         new LambdaUpdateWrapper<OmsOrder>()
                                 .eq(OmsOrder::getOrderNo, o.getOrderNo())
-                                .eq(OmsOrder::getStatus, "WAIT_PAY")
+                                .in(OmsOrder::getStatus, "WAIT_PAY","PAY_FAILED","PAYING")
                                 .set(OmsOrder::getStatus, "TIMEOUT_CANCELLED")
                                 .set(OmsOrder::getFailReason, "超时取消")
                 );

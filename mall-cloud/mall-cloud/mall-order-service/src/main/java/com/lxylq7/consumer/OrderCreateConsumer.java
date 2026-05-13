@@ -2,6 +2,7 @@ package com.lxylq7.consumer;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.lxylq7.common.Result;
 import com.lxylq7.client.ProductClient;
 import com.lxylq7.client.StockClient;
 import com.lxylq7.client.UserClient;
@@ -76,15 +77,17 @@ public class OrderCreateConsumer {
             boolean deducted = false;
             try {
                 //用户校验
-                UserDTO user = userClient.getById(event.getUserId());
-                if (user == null || !"ACTIVE".equalsIgnoreCase(user.getStatus())) {
+                Result<UserDTO> userResult = userClient.getById(event.getUserId());
+                UserDTO user = userResult == null ? null : userResult.getData();
+                if (userResult == null || !userResult.isSuccess() || user == null || !"ACTIVE".equalsIgnoreCase(user.getStatus())) {
                     failOrder(omsOrderMapper,event.getOrderNo(),"用户不存在或不可用");
                     orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                     return;
                 }
                 //商品校验
-                ProductDTO product = productClient.getById(event.getProductId());
-                if (product == null) {
+                Result<ProductDTO> productResult = productClient.getById(event.getProductId());
+                ProductDTO product = productResult == null ? null : productResult.getData();
+                if (productResult == null || !productResult.isSuccess() || product == null) {
                     failOrder(omsOrderMapper,event.getOrderNo(),"商品不存在");
                     orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                     return;
@@ -99,11 +102,12 @@ public class OrderCreateConsumer {
                 req.setProductId(event.getProductId());
                 req.setQuantity(event.getQuantity());
 
-                StockDeductResponse deduct = stockClient.deduct(req);
-                if (deduct == null || !Boolean.TRUE.equals(deduct.getSuccess())) {
-                    String reason = (deduct == null || deduct.getMessage() == null || deduct.getMessage().isBlank())
+                Result<StockDeductResponse> deductResult = stockClient.deduct(req);
+                StockDeductResponse deduct = deductResult == null ? null : deductResult.getData();
+                if (deductResult == null || !deductResult.isSuccess() || deduct == null || !Boolean.TRUE.equals(deduct.getSuccess())) {
+                    String reason = deductResult == null
                             ? "库存服务异常"
-                            : deduct.getMessage();
+                            : (deductResult.getMessage() == null || deductResult.getMessage().isBlank() ? "扣减失败" : deductResult.getMessage());
                     failOrder(omsOrderMapper, event.getOrderNo(), reason);
                     orderEventConsumeLogMapper.markDone(event.getBizNo(), eventType);
                     return;

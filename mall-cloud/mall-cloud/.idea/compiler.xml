@@ -9,6 +9,7 @@
         <module name="mall-product-service" />
         <module name="mall-stock-service" />
         <module name="mall-order-service" />
+        <module name="mall-common" />
         <module name="mall-gateway" />
         <module name="mall-user-service" />
       </profile>
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mall-common" options="-parameters" />
       <module name="mall-gateway" options="-parameters" />
       <module name="mall-order-service" options="-parameters" />
       <module name="mall-product-service" options="-parameters" />

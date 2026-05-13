@@ -1,5 +1,6 @@
 package com.lxylq7.controller;
 
+import com.lxylq7.common.Result;
 import com.lxylq7.dto.StockDTO;
 import com.lxylq7.dto.StockDeductRequest;
 import com.lxylq7.dto.StockDeductResponse;
@@ -21,13 +22,35 @@ public class StockController {
     private StockService stockService;
 
     @GetMapping("/stocks/{productId}")
-    public StockDTO getStock(@PathVariable("productId") Long productId) {
-        return stockService.getStock(productId);
+    public Result<StockDTO> getStock(@PathVariable("productId") Long productId) {
+        StockDTO dto = stockService.getStock(productId);
+        if (dto == null) {
+            return Result.fail("库存不存在");
+        }
+        return Result.ok(dto);
     }
 
     @PostMapping("/stocks/deduct")
-    public StockDeductResponse deduct(@RequestBody StockDeductRequest req) {return stockService.deduct(req);}
+    public Result<StockDeductResponse> deduct(@RequestBody StockDeductRequest req) {
+        StockDeductResponse resp = stockService.deduct(req);
+        if (resp == null) {
+            return Result.fail("库存服务异常");
+        }
+        if (Boolean.TRUE.equals(resp.getSuccess())) {
+            return Result.ok(resp.getMessage() == null ? "OK" : resp.getMessage(), resp);
+        }
+        return Result.fail(resp.getMessage() == null ? "扣减失败" : resp.getMessage());
+    }
 
     @PostMapping("/stocks/release")
-    public StockDeductResponse release(@RequestBody StockReleaseRequest req){return stockService.release(req);}
+    public Result<StockDeductResponse> release(@RequestBody StockReleaseRequest req) {
+        StockDeductResponse resp = stockService.release(req);
+        if (resp == null) {
+            return Result.fail("库存服务异常");
+        }
+        if (Boolean.TRUE.equals(resp.getSuccess())) {
+            return Result.ok(resp.getMessage() == null ? "OK" : resp.getMessage(), resp);
+        }
+        return Result.fail(resp.getMessage() == null ? "释放失败" : resp.getMessage());
+    }
 }

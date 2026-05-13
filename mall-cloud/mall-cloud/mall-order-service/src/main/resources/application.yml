@@ -70,3 +70,11 @@ order:
     lock:
       name: order-processing-timeout
       ttl: 120000 #120s过期
+  pay-timeout:
+    enabled: true
+    fixed-delay: 60000 #60s执行一次
+    minutes: 2
+    limit: 200
+    lock:
+      name: order-pay-timeout
+      ttl: 120000 #120s过期

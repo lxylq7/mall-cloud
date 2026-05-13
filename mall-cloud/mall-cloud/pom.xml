@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>mall-common</module>
         <module>mall-gateway</module>
         <module>mall-user-service</module>
         <module>mall-order-service</module>

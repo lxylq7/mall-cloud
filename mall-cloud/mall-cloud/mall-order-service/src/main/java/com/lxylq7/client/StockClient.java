@@ -1,5 +1,6 @@
 package com.lxylq7.client;
 
+import com.lxylq7.common.Result;
 import com.lxylq7.dto.StockDTO;
 import com.lxylq7.dto.StockDeductRequest;
 import com.lxylq7.dto.StockDeductResponse;
@@ -10,17 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Map;
-
 @FeignClient(name = "mall-stock-service")
 public interface StockClient {
 
     @GetMapping("/stocks/{productId}")
-    StockDTO getStock(@PathVariable("productId") Long productId);
+    Result<StockDTO> getStock(@PathVariable("productId") Long productId);
 
     @PostMapping("/stocks/deduct")
-    StockDeductResponse deduct(@RequestBody StockDeductRequest req);
+    Result<StockDeductResponse> deduct(@RequestBody StockDeductRequest req);
 
     @PostMapping("/stocks/release")
-    StockDeductResponse release(@RequestBody StockReleaseRequest req);
+    Result<StockDeductResponse> release(@RequestBody StockReleaseRequest req);
 }

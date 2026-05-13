@@ -8,4 +8,5 @@ public class OrderPayEvent {
     private String payNo;
     private String orderNo;
     private Long ts;
+    private String result;
 }

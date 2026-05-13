@@ -15,12 +15,13 @@ public interface OrderPayLogMapper {
     int insertIgnore(@Param("payNo") String payNo, @Param("orderNo") String orderNo);
 
     @Select("""
-        SELECT pay_no
-        FROM oms_order_pay_log
-        WHERE order_no = #{orderNo}
-        LIMIT 1
-    """)
-    String selectPayNoByOrderNo(@Param("orderNo") String orderNo);
+    SELECT pay_no
+    FROM oms_order_pay_log
+    WHERE order_no = #{orderNo}
+    ORDER BY created_at DESC
+    LIMIT 1
+""")
+    String selectLatestPayNoByOrderNo(@Param("orderNo") String orderNo);
 
     @Select("""
     SELECT order_no

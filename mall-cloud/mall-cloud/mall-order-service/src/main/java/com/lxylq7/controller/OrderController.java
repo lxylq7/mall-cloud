@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.lxylq7.client.ProductClient;
 import com.lxylq7.client.StockClient;
 import com.lxylq7.client.UserClient;
+import com.lxylq7.common.Result;
 import com.lxylq7.dto.*;
 import com.lxylq7.entity.OmsOrder;
 import com.lxylq7.mapper.OmsOrderMapper;
@@ -33,13 +34,9 @@ public class OrderController {
     private org.springframework.cloud.stream.function.StreamBridge streamBridge;
 
     @PostMapping("/orders")
-    public OrderCreateResponse create(@RequestBody OrderCreateRequest req) {
-        OrderCreateResponse resp = new OrderCreateResponse();
-
+    public Result<OrderCreateResponse> create(@RequestBody OrderCreateRequest req) {
         if (req == null || req.getUserId() == null || req.getProductId() == null || req.getQuantity() == null) {
-            resp.setSuccess(false);
-            resp.setMessage("userId/productId/quantity不能为空");
-            return resp;
+            return Result.fail("userId/productId/quantity不能为空");
         }
         /*UserDTO user = userClient.getById(req.getUserId());
         if (user == null || !"active".equalsIgnoreCase(user.getStatus())){ //忽略大小写
@@ -79,9 +76,11 @@ public class OrderController {
             omsOrderMapper.insert(order);
         } catch (Exception e) {
             //订单失败 -> 回补库存
-            resp.setSuccess(false);
-            resp.setMessage("订单受理失败:"+e.getMessage());
-            return resp;
+            OrderCreateResponse data = new OrderCreateResponse();
+            data.setOrderNo(orderNo);
+            data.setUserId(req.getUserId());
+            data.setQuantity(req.getQuantity());
+            return Result.fail("订单受理失败:" + e.getMessage(), data);
             /*StockReleaseRequest releaseReq = new StockReleaseRequest();
             try {
                 releaseReq.setProductId(req.getProductId());
@@ -114,18 +113,18 @@ public class OrderController {
                             .set(OmsOrder::getStatus, "FAILED")
                             .set(OmsOrder::getFailReason, "MQ发送失败")
             );
-            resp.setSuccess(false);
-            resp.setMessage("订单受理失败:MQ发送失败");
-            resp.setOrderNo(orderNo);
-            return resp;
+            OrderCreateResponse data = new OrderCreateResponse();
+            data.setOrderNo(orderNo);
+            data.setUserId(req.getUserId());
+            data.setQuantity(req.getQuantity());
+            return Result.fail("订单受理失败:MQ发送失败", data);
         }
 
-        resp.setSuccess(true);
-        resp.setMessage("订单已经受理");
-        resp.setOrderNo(orderNo);
-        resp.setUserId(req.getUserId());
-        resp.setQuantity(req.getQuantity());
-        return resp;
+        OrderCreateResponse data = new OrderCreateResponse();
+        data.setOrderNo(orderNo);
+        data.setUserId(req.getUserId());
+        data.setQuantity(req.getQuantity());
+        return Result.ok("订单已经受理", data);
     }
 
     /**
@@ -133,56 +132,54 @@ public class OrderController {
      * @return
      */
     @GetMapping("/orders/{orderNo}")
-    public OrderCreateResponse query(@PathVariable("orderNo") String orderNo) {
-        OrderCreateResponse resp = new OrderCreateResponse();
+    public Result<OrderCreateResponse> query(@PathVariable("orderNo") String orderNo) {
         OmsOrder order = omsOrderMapper.selectOne(
                 new LambdaQueryWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
                         .last("limit 1")
         );
         if (order == null) {
-            resp.setSuccess(false);
-            resp.setMessage("订单不存在");
-            return resp;
+            return Result.fail("订单不存在");
         }
-        resp.setSuccess(true);
-        resp.setOrderNo(orderNo);
-        resp.setQuantity(order.getQuantity());
-        resp.setUserId(order.getUserId());
+        OrderCreateResponse data = new OrderCreateResponse();
+        data.setOrderNo(orderNo);
+        data.setQuantity(order.getQuantity());
+        data.setUserId(order.getUserId());
 
+        String message;
         if ("ACCEPTED".equalsIgnoreCase(order.getStatus())) {
-            resp.setMessage("处理中");
+            message = "处理中";
         } else if ("CONFIRMED".equals(order.getStatus())) {
-            resp.setMessage("下单成功");
+            message = "下单成功";
         } else if ("CANCELLED".equals(order.getStatus())) {
-            resp.setMessage("已取消");
+            message = "已取消";
         } else if ("TIMEOUT_CANCELLED".equals(order.getStatus())) {
-            resp.setMessage("超时取消");
+            message = "超时取消";
         } else if ("WAIT_PAY".equals(order.getStatus())) {
-            resp.setMessage("待支付");
+            message = "待支付";
+        } else if ("PAY_FAILED".equals(order.getStatus())) {
+            message = "支付失败,可重新支付或取消";
+        } else if ("PAYING".equals(order.getStatus())) {
+            message = "支付中";
         } else if ("FAILED".equals(order.getStatus())) {
-            resp.setMessage(order.getFailReason() == null ? "下单失败" : order.getFailReason());
+            message = order.getFailReason() == null ? "下单失败" : order.getFailReason();
         } else {
-            resp.setMessage(order.getStatus());
+            message = order.getStatus();
         }
-        return resp;
+        return Result.ok(message, data);
     }
 
     @PostMapping("/orders/{orderNo}/cancel")
-    public OrderCreateResponse cancel(@PathVariable("orderNo") String orderNo) {
-        OrderCreateResponse resp = new OrderCreateResponse();
-
+    public Result<OrderCreateResponse> cancel(@PathVariable("orderNo") String orderNo) {
         if (orderNo == null || orderNo.isBlank()) {
-            resp.setSuccess(false);
-            resp.setMessage("orderNo不能为空");
-            return resp;
+            return Result.fail("orderNo不能为空");
         }
 
         int rows = omsOrderMapper.update(
                 null,
                 new LambdaUpdateWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
-                        .eq(OmsOrder::getStatus, "WAIT_PAY")
+                        .in(OmsOrder::getStatus, "WAIT_PAY","PAY_FAILED","PAYING")
                         .set(OmsOrder::getStatus, "CANCELLED")
                         .set(OmsOrder::getFailReason, "用户取消")
         );
@@ -203,10 +200,9 @@ public class OrderController {
                 }
             }
 
-            resp.setSuccess(true);
-            resp.setOrderNo(orderNo);
-            resp.setMessage("已取消");
-            return resp;
+            OrderCreateResponse data = new OrderCreateResponse();
+            data.setOrderNo(orderNo);
+            return Result.ok("已取消", data);
         }
 
         OmsOrder order = omsOrderMapper.selectOne(
@@ -215,28 +211,33 @@ public class OrderController {
                         .last("limit 1")
         );
         if (order == null) {
-            resp.setSuccess(false);
-            resp.setMessage("订单不存在");
-            return resp;
+            return Result.fail("订单不存在");
         }
 
-        resp.setSuccess(false);
-        resp.setOrderNo(orderNo);
+        OrderCreateResponse data = new OrderCreateResponse();
+        data.setOrderNo(orderNo);
 
+        String message;
         if ("CONFIRMED".equalsIgnoreCase(order.getStatus())) {
-            resp.setMessage("订单已成功，不可取消");
+            message = "订单已成功，不可取消";
         } else if ("FAILED".equalsIgnoreCase(order.getStatus())) {
-            resp.setMessage("订单已失败，无需取消");
+            message = "订单已失败，无需取消";
         } else if ("CANCELLED".equalsIgnoreCase(order.getStatus()) || "TIMEOUT_CANCELLED".equalsIgnoreCase(order.getStatus())) {
-            resp.setMessage("订单已取消");
+            message = "订单已取消";
+        } else if ("PAY_FAILED".equalsIgnoreCase(order.getStatus())) {
+            message = "支付失败,可重新支付或取消";
+        } else if ("WAIT_PAY".equalsIgnoreCase(order.getStatus())) {
+            message = "待支付,可取消";
+        } else if ("PAYING".equalsIgnoreCase(order.getStatus())) {
+            message = "支付中";
         } else {
-            resp.setMessage("订单处理中，不可取消");
+            message = "订单处理中，不可取消";
         }
-        return resp;
+        return Result.fail(message, data);
     }
 
     @PostMapping("/orders/timeout-cancel")
-    public Map<String, Object> timeoutCancel(
+    public Result<Map<String, Object>> timeoutCancel(
             @RequestParam(value = "minutes", defaultValue = "15") int minutes,
             @RequestParam(value = "limit", defaultValue = "200") int limit
     ) {
@@ -250,7 +251,7 @@ public class OrderController {
 
         List<OmsOrder> candidates = omsOrderMapper.selectList(
                 new LambdaQueryWrapper<OmsOrder>()
-                        .eq(OmsOrder::getStatus, "WAIT_PAY")
+                        .in(OmsOrder::getStatus, "WAIT_PAY","PAY_FAILED","PAYING")
                         .isNotNull(OmsOrder::getCreateAt)
                         .lt(OmsOrder::getCreateAt, cutoff)
                         .last("limit " + limit)
@@ -262,7 +263,7 @@ public class OrderController {
                     null,
                     new LambdaUpdateWrapper<OmsOrder>()
                             .eq(OmsOrder::getOrderNo, o.getOrderNo())
-                            .eq(OmsOrder::getStatus, "WAIT_PAY")
+                            .in(OmsOrder::getStatus, "WAIT_PAY","PAY_FAILED","PAYING")
                             .set(OmsOrder::getStatus, "TIMEOUT_CANCELLED")
                             .set(OmsOrder::getFailReason, "超时取消")
             );
@@ -278,24 +279,20 @@ public class OrderController {
             updated += rows;
         }
 
-        return Map.of(
+        return Result.ok(Map.of(
                 "success", true,
                 "minutes", minutes,
                 "cutoff", cutoff.toString(),
                 "scanned", candidates.size(),
                 "updated", updated
-        );
+        ));
     }
 
     @PostMapping("/orders/{orderNo}/pay")
-    public OrderCreateResponse pay(@PathVariable("orderNo") String orderNo,
-                                   @RequestParam(value = "payNo",required = false) String payNo) {
-        OrderCreateResponse resp = new OrderCreateResponse();
-
+    public Result<Map<String, Object>> pay(@PathVariable("orderNo") String orderNo,
+                                          @RequestParam(value = "payNo", required = false) String payNo) {
         if (orderNo == null || orderNo.isBlank()) {
-            resp.setSuccess(false);
-            resp.setMessage("orderNo不能为空");
-            return resp;
+            return Result.fail("orderNo不能为空");
         }
 
         /*int rows = omsOrderMapper.update(
@@ -321,23 +318,18 @@ public class OrderController {
         );
 
         if (order == null) {
-            resp.setSuccess(false);
-            resp.setMessage("订单不存在");
-            return resp;
+            return Result.fail("订单不存在");
         }
 
         if ("CONFIRMED".equalsIgnoreCase(order.getStatus())) {
-            resp.setSuccess(true);
-            resp.setOrderNo(orderNo);
-            resp.setMessage("已支付");
-            return resp;
+            return Result.ok("已支付", Map.of("orderNo", orderNo));
         }
 
-        if (!"WAIT_PAY".equalsIgnoreCase(order.getStatus())) {
-            resp.setSuccess(false);
-            resp.setOrderNo(orderNo);
-            resp.setMessage("当前状态不可支付:" + order.getStatus());
-            return resp;
+        String st = order.getStatus();
+        boolean canPay = "WAIT_PAY".equalsIgnoreCase(st) || "PAY_FAILED".equalsIgnoreCase(st);
+
+        if (!canPay) {
+            return Result.fail("当前状态不可支付:" + order.getStatus(), Map.of("orderNo", orderNo));
         }
 
         if (payNo == null || payNo.isBlank()) {
@@ -348,10 +340,19 @@ public class OrderController {
 
         String mappedOrderNo = orderPayLogMapper.selectOrderNoByPayNo(payNo);
         if (mappedOrderNo != null && !mappedOrderNo.equals(orderNo)) {
-            resp.setSuccess(false);
-            resp.setOrderNo(orderNo);
-            resp.setMessage("payNo已被其他订单使用");
-            return resp;
+            return Result.fail("payNo已被其他订单使用", Map.of("orderNo", orderNo, "payNo", payNo));
+        }
+
+        int move = omsOrderMapper.update(
+                null,
+                new LambdaUpdateWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .in(OmsOrder::getStatus, "WAIT_PAY", "PAY_FAILED")
+                        .set(OmsOrder::getStatus, "PAYING")
+                        .set(OmsOrder::getFailReason, null)
+        );
+        if (move == 0) {
+            return Result.fail("当前状态不可支付:" + order.getStatus(), Map.of("orderNo", orderNo, "payNo", payNo));
         }
 
         /*int rows = omsOrderMapper.update(
@@ -395,15 +396,167 @@ public class OrderController {
 
         boolean sent = streamBridge.send("orderPayOut0", payEvent);
         if (!sent) {
-            resp.setSuccess(false);
-            resp.setOrderNo(orderNo);
-            resp.setMessage("支付受理失败:MQ发送失败");
-            return resp;
+            return Result.fail("支付受理失败:MQ发送失败", Map.of("orderNo", orderNo, "payNo", payNo));
         }
 
-        resp.setSuccess(true);
-        resp.setOrderNo(orderNo);
-        resp.setMessage("支付已受理");
-        return resp;
+        return Result.ok("支付已受理:" + payNo, Map.of("orderNo", orderNo, "payNo", payNo));
+    }
+
+    @PostMapping("/pay/callback")
+    public Result<Map<String, Object>> payCallback(@RequestParam("orderNo") String orderNo,
+                                                  @RequestParam("payNo") String payNo,
+                                                  @RequestParam(value = "delayMs", defaultValue = "0") long delayMs,
+                                                  @RequestParam(value = "repeat", defaultValue = "1") int repeat,
+                                                  @RequestParam(value = "result", defaultValue = "SUCCESS") String result) {
+        if (orderNo == null || orderNo.isBlank() || payNo == null || payNo.isBlank()) {
+            return Result.fail("orderNo/payNo不能为空");
+        }
+
+        if (result == null || result.isBlank()) {
+            result = "SUCCESS";
+        }
+        result = result.toUpperCase();
+        if (!"SUCCESS".equals(result) && !"FAIL".equals(result)) {
+            result = "SUCCESS";
+        }
+
+        if (delayMs < 0) delayMs = 0;
+        if (delayMs > 60000) delayMs = 60000;
+        if (repeat <= 0) repeat = 1;
+        if (repeat > 20) repeat = 20;
+
+        if (delayMs > 0) {
+            try {
+                Thread.sleep(delayMs);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return Result.fail("delay被中断", Map.of("orderNo", orderNo, "payNo", payNo));
+            }
+        }
+
+        int sentCount = 0;
+        for (int i = 0; i < repeat; i++) {
+            OrderPayEvent payEvent = new OrderPayEvent();
+            payEvent.setPayNo(payNo);
+            payEvent.setOrderNo(orderNo);
+            payEvent.setTs(System.currentTimeMillis());
+            payEvent.setResult(result);
+
+            boolean sent = streamBridge.send("orderPayOut0", payEvent);
+            if (sent) {
+                sentCount++;
+            }
+        }
+
+        Map<String, Object> data = Map.of(
+                "success", sentCount == repeat,
+                "orderNo", orderNo,
+                "payNo", payNo,
+                "delayMs", delayMs,
+                "repeat", repeat,
+                "sent", sentCount,
+                "result", result
+        );
+        if (sentCount != repeat) {
+            return Result.fail("部分回调消息发送失败", data);
+        }
+        return Result.ok(data);
+    }
+
+    @PostMapping("/orders/{orderNo}/repay")
+    public Result<Map<String, Object>> repay(@PathVariable("orderNo") String orderNo,
+                                            @RequestParam(value = "result", defaultValue = "SUCCESS") String result,
+                                            @RequestParam(value = "delayMs", defaultValue = "0") long delayMs,
+                                            @RequestParam(value = "repeat", defaultValue = "1") int repeat) {
+        if (orderNo == null || orderNo.isBlank()) {
+            return Result.fail("orderNo不能为空");
+        }
+
+        if (result == null || result.isBlank()) {
+            result = "SUCCESS";
+        }
+        result = result.toUpperCase();
+        if (!"SUCCESS".equals(result) && !"FAIL".equals(result)) {
+            result = "SUCCESS";
+        }
+
+        if (delayMs < 0) delayMs = 0;
+        if (delayMs > 60000) delayMs = 60000;
+        if (repeat <= 0) repeat = 1;
+        if (repeat > 20) repeat = 20;
+
+        OmsOrder order = omsOrderMapper.selectOne(
+                new LambdaQueryWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .last("limit 1")
+        );
+        if (order == null) {
+            return Result.fail("订单不存在");
+        }
+
+        String st = order.getStatus();
+        boolean canPay = "WAIT_PAY".equalsIgnoreCase(st) || "PAY_FAILED".equalsIgnoreCase(st);
+        if (!canPay) {
+            return Result.fail("当前状态不可重新支付:" + st, Map.of("orderNo", orderNo));
+        }
+
+        String payNo = "PAY-" + java.util.UUID.randomUUID();
+
+        orderPayLogMapper.insertIgnore(payNo, orderNo);
+
+        String mappedOrderNo = orderPayLogMapper.selectOrderNoByPayNo(payNo);
+        if (mappedOrderNo != null && !mappedOrderNo.equals(orderNo)) {
+            return Result.fail("payNo已被其他订单使用", Map.of("orderNo", orderNo, "payNo", payNo));
+        }
+
+        int move = omsOrderMapper.update(
+                null,
+                new LambdaUpdateWrapper<OmsOrder>()
+                        .eq(OmsOrder::getOrderNo, orderNo)
+                        .in(OmsOrder::getStatus, "WAIT_PAY", "PAY_FAILED")
+                        .set(OmsOrder::getStatus, "PAYING")
+                        .set(OmsOrder::getFailReason, null)
+        );
+        if (move == 0) {
+            return Result.fail("当前状态不可重新支付:" + st, Map.of("orderNo", orderNo, "payNo", payNo));
+        }
+
+        if (delayMs > 0) {
+            try {
+                Thread.sleep(delayMs);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return Result.fail("delay被中断", Map.of("orderNo", orderNo, "payNo", payNo));
+            }
+        }
+
+        int sentCount = 0;
+        for (int i = 0; i < repeat; i++) {
+            OrderPayEvent payEvent = new OrderPayEvent();
+            payEvent.setPayNo(payNo);
+            payEvent.setOrderNo(orderNo);
+            payEvent.setResult(result);
+            payEvent.setTs(System.currentTimeMillis());
+
+            boolean sent = streamBridge.send("orderPayOut0", payEvent);
+            if (sent) {
+                sentCount++;
+            }
+        }
+
+        Map<String, Object> data = Map.of(
+                "success", sentCount == repeat,
+                "orderNo", orderNo,
+                "payNo", payNo,
+                "result", result,
+                "delayMs", delayMs,
+                "repeat", repeat,
+                "sent", sentCount,
+                "message", "重新支付已受理"
+        );
+        if (sentCount != repeat) {
+            return Result.fail("重新支付受理失败", data);
+        }
+        return Result.ok("重新支付已受理", data);
     }
 }
