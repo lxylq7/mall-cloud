@@ -35,7 +35,14 @@ public class OrderController {
     private org.springframework.cloud.stream.function.StreamBridge streamBridge;
 
     @PostMapping("/orders")
-    public Result<OrderCreateResponse> create(@Valid @RequestBody OrderCreateRequest req) {
+    public Result<OrderCreateResponse> create(@RequestHeader(value = "X-User-Id",required = false) Long loginUserId,
+            @Valid @RequestBody OrderCreateRequest req) {
+
+        if (loginUserId == null || loginUserId <= 0) {
+            return (Result<OrderCreateResponse>) (Result<?>)
+                    unauthorized();
+        }
+
         if (req == null || req.getUserId() == null || req.getProductId() == null || req.getQuantity() == null) {
             return Result.fail("userId/productId/quantity不能为空");
         }
@@ -63,12 +70,13 @@ public class OrderController {
             return resp;
         }*/
 
+        Long userId = loginUserId;
         //插入到数据库
         String orderNo = "MOCK-" + System.currentTimeMillis();
         //String orderNo = "MOCK-FIXED-001";  用来测试release接口的
         OmsOrder order = new OmsOrder();
         order.setOrderNo(orderNo);
-        order.setUserId(req.getUserId());
+        order.setUserId(userId);
         order.setProductId(req.getProductId());
         order.setQuantity(req.getQuantity());
         order.setStatus("ACCEPTED");
@@ -79,7 +87,7 @@ public class OrderController {
             //订单失败 -> 回补库存
             OrderCreateResponse data = new OrderCreateResponse();
             data.setOrderNo(orderNo);
-            data.setUserId(req.getUserId());
+            data.setUserId(userId);
             data.setQuantity(req.getQuantity());
             return Result.fail("订单受理失败:" + e.getMessage(), data);
             /*StockReleaseRequest releaseReq = new StockReleaseRequest();
@@ -101,7 +109,7 @@ public class OrderController {
         event.setBizNo(java.util.UUID.randomUUID().toString());
         event.setQuantity(req.getQuantity());
         event.setProductId(req.getProductId());
-        event.setUserId(req.getUserId());
+        event.setUserId(userId);
         event.setOrderNo(orderNo);
         event.setTs(System.currentTimeMillis());
 
@@ -116,14 +124,14 @@ public class OrderController {
             );
             OrderCreateResponse data = new OrderCreateResponse();
             data.setOrderNo(orderNo);
-            data.setUserId(req.getUserId());
+            data.setUserId(userId);
             data.setQuantity(req.getQuantity());
             return Result.fail("订单受理失败:MQ发送失败", data);
         }
 
         OrderCreateResponse data = new OrderCreateResponse();
         data.setOrderNo(orderNo);
-        data.setUserId(req.getUserId());
+        data.setUserId(userId);
         data.setQuantity(req.getQuantity());
         return Result.ok("订单已经受理", data);
     }
@@ -559,5 +567,13 @@ public class OrderController {
             return Result.fail("重新支付受理失败", data);
         }
         return Result.ok("重新支付已受理", data);
+    }
+
+    private Result<Object> unauthorized() {
+        return Result.fail(401,"未登录");
+    }
+
+    private boolean isOwner(Long loginUserId,OmsOrder order) {
+        return loginUserId != null && order != null && order.getUserId() != null && order.getUserId().equals(loginUserId);
     }
 }

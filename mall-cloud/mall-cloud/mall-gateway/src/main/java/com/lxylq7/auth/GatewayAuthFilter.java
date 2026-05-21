@@ -20,6 +20,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
 
+/**
+ * 实现了过滤器 所有请求都要经过
+ */
 @Component
 public class GatewayAuthFilter implements GlobalFilter, Ordered {
 
