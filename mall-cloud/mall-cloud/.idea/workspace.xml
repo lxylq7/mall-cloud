@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0446c0f0-0e91-41f6-b8de-3529bf748682" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/mall-gateway/src/main/java/com/lxylq7/auth/GatewayAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-gateway/src/main/java/com/lxylq7/auth/GatewayAuthFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mall-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mall-gateway/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mall-order-service/src/main/java/com/lxylq7/controller/OrderController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -246,7 +244,7 @@
       <workItem from="1778905097314" duration="2860000" />
       <workItem from="1779269227351" duration="4290000" />
       <workItem from="1779332207810" duration="604000" />
-      <workItem from="1779372353412" duration="1547000" />
+      <workItem from="1779372353412" duration="1942000" />
     </task>
     <servers />
   </component>

@@ -141,7 +141,14 @@ public class OrderController {
      * @return
      */
     @GetMapping("/orders/{orderNo}")
-    public Result<OrderCreateResponse> query(@PathVariable("orderNo") String orderNo) {
+    public Result<OrderCreateResponse> query(@RequestHeader(value = "X-User-Id",required = false) Long loginUserId,
+                                             @PathVariable("orderNo") String orderNo) {
+
+        if (loginUserId == null || loginUserId <= 0) {
+            return (Result<OrderCreateResponse>) (Result<?>)
+                    unauthorized();
+        }
+
         OmsOrder order = omsOrderMapper.selectOne(
                 new LambdaQueryWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
@@ -150,6 +157,11 @@ public class OrderController {
         if (order == null) {
             return Result.fail("订单不存在");
         }
+
+        if (!isOwner(loginUserId,order)) {
+            return Result.fail(403,"无权限");
+        }
+        
         OrderCreateResponse data = new OrderCreateResponse();
         data.setOrderNo(orderNo);
         data.setQuantity(order.getQuantity());
