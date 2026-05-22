@@ -12,6 +12,7 @@ import com.lxylq7.entity.OmsOrder;
 import com.lxylq7.mapper.OmsOrderMapper;
 import com.lxylq7.mapper.OrderPayLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -33,18 +34,17 @@ public class OrderController {
     private OrderPayLogMapper orderPayLogMapper;
     @Autowired
     private org.springframework.cloud.stream.function.StreamBridge streamBridge;
+    @Value("${pay.callback.token:}")
+    private String callbackToken;
 
     @PostMapping("/orders")
     public Result<OrderCreateResponse> create(@RequestHeader(value = "X-User-Id",required = false) Long loginUserId,
             @Valid @RequestBody OrderCreateRequest req) {
 
-        if (loginUserId == null || loginUserId <= 0) {
-            return (Result<OrderCreateResponse>) (Result<?>)
-                    unauthorized();
-        }
-
-        if (req == null || req.getUserId() == null || req.getProductId() == null || req.getQuantity() == null) {
-            return Result.fail("userId/productId/quantity不能为空");
+        Long userId = requireLoginUserId(loginUserId);
+        
+        if (req == null || req.getQuantity() == null) {
+            return Result.fail("quantity不能为空");
         }
         /*UserDTO user = userClient.getById(req.getUserId());
         if (user == null || !"active".equalsIgnoreCase(user.getStatus())){ //忽略大小写
@@ -70,7 +70,6 @@ public class OrderController {
             return resp;
         }*/
 
-        Long userId = loginUserId;
         //插入到数据库
         String orderNo = "MOCK-" + System.currentTimeMillis();
         //String orderNo = "MOCK-FIXED-001";  用来测试release接口的
@@ -144,10 +143,7 @@ public class OrderController {
     public Result<OrderCreateResponse> query(@RequestHeader(value = "X-User-Id",required = false) Long loginUserId,
                                              @PathVariable("orderNo") String orderNo) {
 
-        if (loginUserId == null || loginUserId <= 0) {
-            return (Result<OrderCreateResponse>) (Result<?>)
-                    unauthorized();
-        }
+        Long userId = requireLoginUserId(loginUserId);
 
         OmsOrder order = omsOrderMapper.selectOne(
                 new LambdaQueryWrapper<OmsOrder>()
@@ -157,10 +153,8 @@ public class OrderController {
         if (order == null) {
             return Result.fail("订单不存在");
         }
-
-        if (!isOwner(loginUserId,order)) {
-            return Result.fail(403,"无权限");
-        }
+        
+        requireOwner(userId,order);
 
         OrderCreateResponse data = new OrderCreateResponse();
         data.setOrderNo(orderNo);
@@ -191,10 +185,25 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{orderNo}/cancel")
-    public Result<OrderCreateResponse> cancel(@PathVariable("orderNo") String orderNo) {
+    public Result<OrderCreateResponse> cancel(@RequestHeader(value = "X-User-Id", required = false) Long loginUserId,
+    @PathVariable("orderNo") String orderNo) {
+
+        Long userId = requireLoginUserId(loginUserId);
+
         if (orderNo == null || orderNo.isBlank()) {
             return Result.fail("orderNo不能为空");
         }
+
+        OmsOrder existing = omsOrderMapper.selectOne(
+                    new LambdaQueryWrapper<OmsOrder>()
+                            .eq(OmsOrder::getOrderNo, orderNo)
+                            .last("limit 1")
+        );
+
+        if (existing == null) {
+            return Result.fail("订单不存在");
+        }
+        requireOwner(userId,existing);
 
         int rows = omsOrderMapper.update(
                 null,
@@ -206,16 +215,12 @@ public class OrderController {
         );
 
         if (rows > 0) {
-            OmsOrder order = omsOrderMapper.selectOne(
-                    new LambdaQueryWrapper<OmsOrder>()
-                            .eq(OmsOrder::getOrderNo, orderNo)
-                            .last("limit 1")
-            );
-            if (order != null && order.getStockDeducted() != null && order.getStockDeducted() == 1) {
+            if (existing.getStockDeducted() != null && 
+            existing.getStockDeducted() == 1) {
                 try {
                     StockReleaseRequest req = new StockReleaseRequest();
-                    req.setProductId(order.getProductId());
-                    req.setQuantity(order.getQuantity());
+                    req.setProductId(existing.getProductId());
+                    req.setQuantity(existing.getQuantity());
                     stockClient.release(req);
                 } catch (Exception ignored) {
                 }
@@ -223,6 +228,8 @@ public class OrderController {
 
             OrderCreateResponse data = new OrderCreateResponse();
             data.setOrderNo(orderNo);
+            data.setUserId(existing.getUserId());
+            data.setQuantity(existing.getQuantity());
             return Result.ok("已取消", data);
         }
 
@@ -237,7 +244,9 @@ public class OrderController {
 
         OrderCreateResponse data = new OrderCreateResponse();
         data.setOrderNo(orderNo);
-
+        data.setUserId(existing.getUserId());
+        data.setQuantity(existing.getQuantity());
+        
         String message;
         if ("CONFIRMED".equalsIgnoreCase(order.getStatus())) {
             message = "订单已成功，不可取消";
@@ -310,8 +319,12 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{orderNo}/pay")
-    public Result<Map<String, Object>> pay(@PathVariable("orderNo") String orderNo,
+    public Result<Map<String, Object>> pay(@RequestHeader(value = "X-User-Id", required = false) Long loginUserId,
+                                          @PathVariable("orderNo") String orderNo,
                                           @RequestParam(value = "payNo", required = false) String payNo) {
+               
+        Long userId = requireLoginUserId(loginUserId);
+
         if (orderNo == null || orderNo.isBlank()) {
             return Result.fail("orderNo不能为空");
         }
@@ -342,6 +355,8 @@ public class OrderController {
             return Result.fail("订单不存在");
         }
 
+        requireOwner(userId,order);
+
         if ("CONFIRMED".equalsIgnoreCase(order.getStatus())) {
             return Result.ok("已支付", Map.of("orderNo", orderNo));
         }
@@ -368,6 +383,7 @@ public class OrderController {
                 null,
                 new LambdaUpdateWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
+                        .eq(OmsOrder::getUserId,userId)
                         .in(OmsOrder::getStatus, "WAIT_PAY", "PAY_FAILED")
                         .set(OmsOrder::getStatus, "PAYING")
                         .set(OmsOrder::getFailReason, null)
@@ -424,11 +440,16 @@ public class OrderController {
     }
 
     @PostMapping("/pay/callback")
-    public Result<Map<String, Object>> payCallback(@RequestParam("orderNo") String orderNo,
+    public Result<Map<String, Object>> payCallback(@RequestHeader(value = "X-Callback-Token", required = false) String cbToken,
+                                                   @RequestParam("orderNo") String orderNo,
                                                   @RequestParam("payNo") String payNo,
                                                   @RequestParam(value = "delayMs", defaultValue = "0") long delayMs,
                                                   @RequestParam(value = "repeat", defaultValue = "1") int repeat,
                                                   @RequestParam(value = "result", defaultValue = "SUCCESS") String result) {
+        if (cbToken == null || cbToken.isBlank() || !cbToken.equals(callbackToken)) {
+            return Result.fail(403, "非法回调");
+        }
+
         if (orderNo == null || orderNo.isBlank() || payNo == null || payNo.isBlank()) {
             return Result.fail("orderNo/payNo不能为空");
         }
@@ -485,10 +506,13 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{orderNo}/repay")
-    public Result<Map<String, Object>> repay(@PathVariable("orderNo") String orderNo,
-                                            @RequestParam(value = "result", defaultValue = "SUCCESS") String result,
-                                            @RequestParam(value = "delayMs", defaultValue = "0") long delayMs,
-                                            @RequestParam(value = "repeat", defaultValue = "1") int repeat) {
+    public Result<Map<String, Object>> repay(@RequestHeader(value = "X-User-Id", required = false) Long loginUserId,
+                                             @PathVariable("orderNo") String orderNo,
+                                             @RequestParam(value = "result", defaultValue = "SUCCESS") String result,
+                                             @RequestParam(value = "delayMs", defaultValue = "0") long delayMs,
+                                             @RequestParam(value = "repeat", defaultValue = "1") int repeat) {
+        Long userId = requireLoginUserId(loginUserId);
+
         if (orderNo == null || orderNo.isBlank()) {
             return Result.fail("orderNo不能为空");
         }
@@ -514,7 +538,7 @@ public class OrderController {
         if (order == null) {
             return Result.fail("订单不存在");
         }
-
+        requireOwner(userId,order);
         String st = order.getStatus();
         boolean canPay = "WAIT_PAY".equalsIgnoreCase(st) || "PAY_FAILED".equalsIgnoreCase(st);
         if (!canPay) {
@@ -534,6 +558,7 @@ public class OrderController {
                 null,
                 new LambdaUpdateWrapper<OmsOrder>()
                         .eq(OmsOrder::getOrderNo, orderNo)
+                        .eq(OmsOrder::getUserId,userId)
                         .in(OmsOrder::getStatus, "WAIT_PAY", "PAY_FAILED")
                         .set(OmsOrder::getStatus, "PAYING")
                         .set(OmsOrder::getFailReason, null)
@@ -587,5 +612,19 @@ public class OrderController {
 
     private boolean isOwner(Long loginUserId,OmsOrder order) {
         return loginUserId != null && order != null && order.getUserId() != null && order.getUserId().equals(loginUserId);
+    }
+    
+    private Long requireLoginUserId(Long loginUserId) {
+        if (loginUserId == null || loginUserId <= 0) {
+           throw new IllegalArgumentException("未登录");
+        }
+        return loginUserId;
+    }
+
+    private void requireOwner(Long loginUserId,OmsOrder order) {
+        if (order == null || order.getUserId() == null ||
+        !order.getUserId().equals(loginUserId)) {
+            throw new IllegalArgumentException("无权限");
+        }
     }
 }

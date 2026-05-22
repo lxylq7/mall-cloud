@@ -16,7 +16,3 @@ spring:
         namespace: public
         group: DEFAULT_GROUP
         file-extension: yaml
-user:
-  jwt:
-    secret: mall-jwt-secret-2026-05-15-7f3c9a1b2d4e6f8a0c1e3b5d7f9a1c3e
-    ttl: 7200

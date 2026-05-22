@@ -42,7 +42,4 @@ spring:
             - Path=/stock/**   #访问/stock/xxx 就能转发
           filters:
             - StripPrefix=1  #去掉/stock/
-user:
-  jwt:
-    secret: mall-jwt-secret-2026-05-15-7f3c9a1b2d4e6f8a0c1e3b5d7f9a1c3e
-    ttl-seconds: 7200
+

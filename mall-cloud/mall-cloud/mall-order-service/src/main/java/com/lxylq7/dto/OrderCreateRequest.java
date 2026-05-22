@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class OrderCreateRequest {
-    @NotNull(message = "userId不能为空")
-    private Long userId;
+    
     @NotNull(message = "productId不能为空")
     private Long productId;
+
     @NotNull(message = "quantity不能为空")
     @Min(value = 1, message = "quantity最小为1")
     private Integer quantity;

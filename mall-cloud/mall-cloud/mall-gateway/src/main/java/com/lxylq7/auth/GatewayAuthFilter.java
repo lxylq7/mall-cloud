@@ -20,9 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
 
-/**
- * 实现了过滤器 所有请求都要经过
- */
 @Component
 public class GatewayAuthFilter implements GlobalFilter, Ordered {
 
@@ -48,6 +45,7 @@ public class GatewayAuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, org.springframework.cloud.gateway.filter.GatewayFilterChain chain) {
+
         String path = exchange.getRequest().getURI().getPath();
 
         //公共路径 直接放行
@@ -82,6 +80,7 @@ public class GatewayAuthFilter implements GlobalFilter, Ordered {
     private boolean isPublicPath(String path) {
         if (path == null) return true;
         return path.equals("/user/login")
+                || path.equals("order/pay/callback")
                 || path.equals("/user/register")
                 || path.startsWith("/user/users/")
                 || path.startsWith("/actuator/");
