@@ -161,7 +161,7 @@ public class OrderController {
         if (!isOwner(loginUserId,order)) {
             return Result.fail(403,"无权限");
         }
-        
+
         OrderCreateResponse data = new OrderCreateResponse();
         data.setOrderNo(orderNo);
         data.setQuantity(order.getQuantity());

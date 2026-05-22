@@ -24,6 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "lxylq7"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/lxylq7/mall-cloud.git",
+    "accountId": "19067193-3f6a-4ac2-b543-0e9011058d12"
+  }
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -244,7 +256,8 @@
       <workItem from="1778905097314" duration="2860000" />
       <workItem from="1779269227351" duration="4290000" />
       <workItem from="1779332207810" duration="604000" />
-      <workItem from="1779372353412" duration="1942000" />
+      <workItem from="1779372353412" duration="2960000" />
+      <workItem from="1779428712548" duration="1015000" />
     </task>
     <servers />
   </component>
