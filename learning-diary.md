@@ -380,3 +380,9 @@ Java的Stream API让集合操作从命令式转向声明式，正如Spring Cloud
 今天的学习记录：
 Spring AI框架的设计哲学是'让AI成为Spring生态的一等公民'——就像当年Spring Data统一了数据访问，Spring AI正在统一LLM集成的编程模型。
 
+
+### 2026-08-13
+
+今天的学习记录：
+Spring Boot 3的AOT编译让我们看到Java在云原生时代的进化方向——更快的启动速度、更低的内存占用，GraalVM正在重塑Java微服务的部署形态。
+
