@@ -584,3 +584,9 @@ Java的Stream API让集合操作从命令式转向声明式，正如Spring Cloud
 今天的学习记录：
 微服务的可观测性三支柱——日志、指标、追踪——在AI Agent场景下需要增加第四根支柱：决策轨迹（Decision Trace），让Agent的推理过程可审计、可回溯。
 
+
+### 2026-09-16
+
+今天的学习记录：
+Java的Stream API让集合操作从命令式转向声明式，正如Spring Cloud Gateway让路由从硬编码转向配置驱动——抽象层次的提升永远是工程进化的主旋律。
+
