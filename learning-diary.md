@@ -626,3 +626,9 @@ AI Agent的核心不是模型本身，而是如何设计工具调用链与记忆
 今天的学习记录：
 Java的Stream API让集合操作从命令式转向声明式，正如Spring Cloud Gateway让路由从硬编码转向配置驱动——抽象层次的提升永远是工程进化的主旋律。
 
+
+### 2026-09-23
+
+今天的学习记录：
+Spring AI框架的设计哲学是'让AI成为Spring生态的一等公民'——就像当年Spring Data统一了数据访问，Spring AI正在统一LLM集成的编程模型。
+
