@@ -704,3 +704,9 @@ Spring Boot 3的AOT编译让我们看到Java在云原生时代的进化方向—
 今天的学习记录：
 Spring Boot 3的AOT编译让我们看到Java在云原生时代的进化方向——更快的启动速度、更低的内存占用，GraalVM正在重塑Java微服务的部署形态。
 
+
+### 2026-10-06
+
+今天的学习记录：
+Java的Stream API让集合操作从命令式转向声明式，正如Spring Cloud Gateway让路由从硬编码转向配置驱动——抽象层次的提升永远是工程进化的主旋律。
+
