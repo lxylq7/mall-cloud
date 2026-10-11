@@ -734,3 +734,9 @@ Spring AI框架的设计哲学是'让AI成为Spring生态的一等公民'——�
 今天的学习记录：
 Spring AI框架的设计哲学是'让AI成为Spring生态的一等公民'——就像当年Spring Data统一了数据访问，Spring AI正在统一LLM集成的编程模型。
 
+
+### 2026-10-11
+
+今天的学习记录：
+微服务的可观测性三支柱——日志、指标、追踪——在AI Agent场景下需要增加第四根支柱：决策轨迹（Decision Trace），让Agent的推理过程可审计、可回溯。
+
